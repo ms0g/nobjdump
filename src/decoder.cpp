@@ -7,6 +7,7 @@
 #define MAGIC1 0x45
 #define MAGIC2 0x53
 #define MAGIC3 0x1A
+
 #define INES_HEADER_SIZE 0x10
 #define PRG_ROM_SIZE 0x4000
 #define CHR_ROM_SIZE 0x2000
@@ -51,8 +52,11 @@ InstructionDecoder::~InstructionDecoder() {
 void InstructionDecoder::decode(Option opt) {
     switch (opt) {
         case Option::HEADER:
-            for (const auto& hData: mHeader) {
-                std::cout << std::format("{:#x} ", hData);
+            std::cout << std::format("{:#x}:    ", mIndex);
+            mIndex += 16;
+
+            for (const auto& hdata: mHeader) {
+                std::cout << std::format("{:#x} ", hdata);
             }
             break;
         case Option::DISASSEMBLE:

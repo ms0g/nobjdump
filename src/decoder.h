@@ -58,4 +58,5 @@ private:
     std::vector<uint8_t> mChrData;
     uint8_t mPrgBankSize;
     uint8_t mChrBankSize;
+    uint16_t mIndex{0};
 };
