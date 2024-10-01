@@ -32,16 +32,16 @@ int main(int argc, char** argv) {
         return EXIT_SUCCESS;
     }
 
-    Options opt;
+    Option opt;
 
     if (!std::strcmp(argv[1], "--header")) {
-        opt = Options::HEADER;
+        opt = Option::HEADER;
     } else if (!std::strcmp(argv[1], "--d") || !std::strcmp(argv[1], "--disassemble")) {
-        opt = Options::DISASSEMBLE;
+        opt = Option::DISASSEMBLE;
     } else if (!std::strcmp(argv[1], "-c") || !std::strcmp(argv[1], "--chr")) {
-        opt = Options::CHR;
+        opt = Option::CHR;
     } else if (!std::strcmp(argv[1], "-p") || !std::strcmp(argv[1], "--prg")) {
-        opt = Options::PRG;
+        opt = Option::PRG;
     }
 
     std::string romfn;

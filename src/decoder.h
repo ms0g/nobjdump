@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-enum class Options {
+enum class Option {
     HEADER,
     DISASSEMBLE,
     PRG,
@@ -46,7 +46,7 @@ public:
     
     ~InstructionDecoder();
     
-    void decode(Options opt);
+    void decode(Option opt);
 
     InstructionDecoder(const InstructionDecoder&) = delete;
     InstructionDecoder& operator=(const InstructionDecoder&) = delete;

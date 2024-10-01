@@ -48,18 +48,18 @@ InstructionDecoder::~InstructionDecoder() {
     mRomFile.close();
 }
 
-void InstructionDecoder::decode(Options opt) {
+void InstructionDecoder::decode(Option opt) {
     switch (opt) {
-        case Options::HEADER:
+        case Option::HEADER:
             for (const auto& hData: mHeader) {
                 std::cout << std::format("{:#x} ", hData);
             }
             break;
-        case Options::DISASSEMBLE:
+        case Option::DISASSEMBLE:
             break;
-        case Options::PRG:
+        case Option::PRG:
             break;
-        case Options::CHR:
+        case Option::CHR:
             break;
     }
 
