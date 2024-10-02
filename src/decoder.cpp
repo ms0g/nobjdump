@@ -60,8 +60,10 @@ void InstructionDecoder::decode(Option opt) {
         case Option::DISASSEMBLE:
             break;
         case Option::PRG:
+            displayPRG();
             break;
         case Option::CHR:
+            displayCHR();
             break;
     }
 
@@ -154,7 +156,23 @@ void InstructionDecoder::decode(Option opt) {
 }
 
 void InstructionDecoder::displayHeader() {
-    for (const auto& hdata: mHeader) {
-        std::cout << std::format("{:#x} ", hdata);
+    for (const auto& data: mHeader) {
+        std::cout << std::format("{:#x} ", data);
     }
+}
+
+void InstructionDecoder::displayPRG() {
+    for (const auto& data: mPrgData.data) {
+        std::cout << std::format("{:#x} ", data);
+    }
+}
+
+void InstructionDecoder::displayCHR() {
+    for (const auto& data: mChrData.data) {
+        std::cout << std::format("{:#x} ", data);
+    }
+}
+
+void InstructionDecoder::disassemble() {
+
 }

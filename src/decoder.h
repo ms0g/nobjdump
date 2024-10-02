@@ -61,6 +61,12 @@ public:
 private:
     void displayHeader();
 
+    void displayPRG();
+
+    void displayCHR();
+
+    void disassemble();
+
     std::ifstream mRomFile;
     std::vector<uint8_t> mHeader;
     ROM(mPrgData);
