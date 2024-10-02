@@ -3,7 +3,7 @@
 
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 3
-#define VERSION_PATCH 0
+#define VERSION_PATCH 1
 
 #define STRINGIFY0(s) # s
 #define STRINGIFY(s) STRINGIFY0(s)
@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
 
     if (!std::strcmp(argv[1], "--header")) {
         opt = Option::HEADER;
-    } else if (!std::strcmp(argv[1], "--d") || !std::strcmp(argv[1], "--disassemble")) {
+    } else if (!std::strcmp(argv[1], "-d") || !std::strcmp(argv[1], "--disassemble")) {
         opt = Option::DISASSEMBLE;
     } else if (!std::strcmp(argv[1], "-c") || !std::strcmp(argv[1], "--chr")) {
         opt = Option::CHR;
