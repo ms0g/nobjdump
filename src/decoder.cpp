@@ -66,93 +66,6 @@ void InstructionDecoder::decode(Option opt) {
             displayCHR();
             break;
     }
-
-//    for (auto const &op: m_data) {
-//        switch (static_cast<Opcode>(op)) {
-//            case Opcode::RTI:
-//                std::cout << "RTI" << "\t";
-//                break;
-//            case Opcode::RTS:
-//                std::cout << "RTS" << "\t";
-//                break;
-//            case Opcode::BRK:
-//                std::cout << "BRK" << "\t";
-//                break;
-//            case Opcode::PHP:
-//                std::cout << "PHP" << "\t";
-//                break;
-//            case Opcode::PLP:
-//                std::cout << "PLP" << "\t";
-//                break;
-//            case Opcode::PHA:
-//                std::cout << "PHA" << "\t";
-//                break;
-//            case Opcode::PLA:
-//                std::cout << "PLA" << "\t";
-//                break;
-//            case Opcode::DEY:
-//                std::cout << "DEY" << "\t";
-//                break;
-//            case Opcode::TAY:
-//                std::cout << "TAY" << "\t";
-//                break;
-//            case Opcode::INY:
-//                std::cout << "INY" << "\t";
-//                break;
-//            case Opcode::INX:
-//                std::cout << "INX" << "\t";
-//                break;
-//            case Opcode::BCS:
-//                std::cout << "BCS" << "\t";
-//                break;
-//            case Opcode::BCC:
-//                std::cout << "BCC" << "\t";
-//                break;
-//            case Opcode::BEQ:
-//                std::cout << "BEQ" << "\t";
-//                break;
-//            case Opcode::BNE:
-//                std::cout << "BNE" << "\t";
-//                break;
-//            case Opcode::BPL:
-//                std::cout << "BPL" << "\t";
-//                break;
-//            case Opcode::BMI:
-//                std::cout << "BMI" << "\t";
-//                break;
-//            case Opcode::BVC:
-//                std::cout << "BVC" << "\t";
-//                break;
-//            case Opcode::BVS:
-//                std::cout << "BVS" << "\t";
-//                break;
-//            case Opcode::SEC:
-//                std::cout << "SEC" << "\t";
-//                break;
-//            case Opcode::SEI:
-//                std::cout << "SEI" << "\t";
-//                break;
-//            case Opcode::SED:
-//                std::cout << "SED" << "\t";
-//                break;
-//            case Opcode::CLD:
-//                std::cout << "CLD" << "\t";
-//                break;
-//            case Opcode::CLV:
-//                std::cout << "CLV" << "\t";
-//                break;
-//            case Opcode::CLC:
-//                std::cout << "CLC" << "\t";
-//                break;
-//            case Opcode::CLI:
-//                std::cout << "CLI" << "\t";
-//                break;
-//            default:
-//                std::cout << "Unknown OPCODE" << "\t";
-//        }
-//    }
-
-
 }
 
 void InstructionDecoder::displayHeader() {
@@ -167,7 +80,7 @@ void InstructionDecoder::displayCHR() {
     fmtDisplay(mChrData.data, mChrData.index);
 }
 
-void InstructionDecoder::fmtDisplay(std::vector<uint8_t>& data, uint16_t index) const {
+void InstructionDecoder::fmtDisplay(const std::vector<uint8_t>& data, uint16_t index) const {
     std::cout << std::format("{:#x}:\t\t", index);
 
     for (int i = 0; i < data.size(); ++i) {
