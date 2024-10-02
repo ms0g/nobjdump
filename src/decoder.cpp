@@ -20,30 +20,33 @@ InstructionDecoder::InstructionDecoder(const std::string& filename) {
         mHeader.resize(INES_HEADER_SIZE);
         mRomFile.read(reinterpret_cast<char*>(mHeader.data()), mHeader.size());
 
-        if (mHeader[0] != MAGIC0 || mHeader[1] != MAGIC1 || mHeader[2] != MAGIC2 || mHeader[3] != MAGIC3) {
+        if (mHeader[0] != MAGIC0 || mHeader[1] != MAGIC1 ||
+            mHeader[2] != MAGIC2 || mHeader[3] != MAGIC3) {
             throw std::invalid_argument("Invalid NES rom file");
         }
-        mPrgBankSize = mHeader[4];
-        if (!mPrgBankSize) {
+
+        mPrgData.size = mHeader[4];
+        if (!mPrgData.size) {
             throw std::invalid_argument("No PRG ROM");
         }
 
-        mChrBankSize = mHeader[5];
+        mPrgData.data.resize(PRG_ROM_SIZE * mPrgData.size);
+        mPrgData.index = INES_HEADER_SIZE;
 
-        mPrgData.resize(PRG_ROM_SIZE * mPrgBankSize);
-        mChrData.resize(CHR_ROM_SIZE * mChrBankSize);
+        mChrData.size = mHeader[5];
+        mChrData.data.resize(CHR_ROM_SIZE * mChrData.size);
+        mChrData.index = INES_HEADER_SIZE + mPrgData.data.size();
 
-        mRomFile.seekg(INES_HEADER_SIZE);
-        mRomFile.read(reinterpret_cast<char*>(mPrgData.data()), mPrgData.size());
+        mRomFile.seekg(mPrgData.index);
+        mRomFile.read(reinterpret_cast<char*>(mPrgData.data.data()), mPrgData.data.size());
 
-        mRomFile.seekg(mPrgData.size());
-        mRomFile.read(reinterpret_cast<char*>(mChrData.data()), mChrData.size());
+        mRomFile.seekg(mPrgData.data.size());
+        mRomFile.read(reinterpret_cast<char*>(mChrData.data.data()), mChrData.data.size());
     } catch (std::ifstream::failure& e) {
         std::cerr << "Exception opening/reading ROM file: " << e.what() << "\t";
         exit(EXIT_FAILURE);
     }
 }
-
 
 InstructionDecoder::~InstructionDecoder() {
     mRomFile.close();
@@ -52,12 +55,7 @@ InstructionDecoder::~InstructionDecoder() {
 void InstructionDecoder::decode(Option opt) {
     switch (opt) {
         case Option::HEADER:
-            std::cout << std::format("{:#x}:    ", mIndex);
-            mIndex += 16;
-
-            for (const auto& hdata: mHeader) {
-                std::cout << std::format("{:#x} ", hdata);
-            }
+            displayHeader();
             break;
         case Option::DISASSEMBLE:
             break;
@@ -153,4 +151,10 @@ void InstructionDecoder::decode(Option opt) {
 //    }
 
 
+}
+
+void InstructionDecoder::displayHeader() {
+    for (const auto& hdata: mHeader) {
+        std::cout << std::format("{:#x} ", hdata);
+    }
 }
