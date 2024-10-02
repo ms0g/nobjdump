@@ -40,7 +40,7 @@ InstructionDecoder::InstructionDecoder(const std::string& filename) {
         mRomFile.seekg(mPrgData.index);
         mRomFile.read(reinterpret_cast<char*>(mPrgData.data.data()), mPrgData.data.size());
 
-        mRomFile.seekg(mPrgData.data.size());
+        mRomFile.seekg(mChrData.index);
         mRomFile.read(reinterpret_cast<char*>(mChrData.data.data()), mChrData.data.size());
     } catch (std::ifstream::failure& e) {
         std::cerr << "Exception opening/reading ROM file: " << e.what() << "\t";
@@ -82,14 +82,14 @@ void InstructionDecoder::displayCHR() {
 }
 
 void InstructionDecoder::fmtDisplay(const std::vector<uint8_t>& data, uint16_t index) const {
-    std::cout << std::format("{:#x}:\t\t", index);
+    std::cout << std::format("{:06x}:\t\t", index);
 
     for (int i = 0; i < data.size(); ++i) {
-        std::cout << std::format("{:#x} ", data[i]);
+        std::cout << std::format("{:02x} ", data[i]);
 
         if ((i != 0) && i % 16 == 0) {
             std::cout << "\n";
-            std::cout << std::format("{:#x}:\t\t", index + i);
+            std::cout << std::format("{:06x}:\t\t", index + i);
         }
     }
 }
