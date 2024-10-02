@@ -65,6 +65,8 @@ private:
 
     void displayCHR();
 
+    void fmtDisplay(std::vector<uint8_t>& data, uint16_t index) const;
+
     void disassemble();
 
     std::ifstream mRomFile;

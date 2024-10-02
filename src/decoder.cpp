@@ -156,20 +156,27 @@ void InstructionDecoder::decode(Option opt) {
 }
 
 void InstructionDecoder::displayHeader() {
-    for (const auto& data: mHeader) {
-        std::cout << std::format("{:#x} ", data);
-    }
+    fmtDisplay(mHeader, 0);
 }
 
 void InstructionDecoder::displayPRG() {
-    for (const auto& data: mPrgData.data) {
-        std::cout << std::format("{:#x} ", data);
-    }
+    fmtDisplay(mPrgData.data, mPrgData.index);
 }
 
 void InstructionDecoder::displayCHR() {
-    for (const auto& data: mChrData.data) {
-        std::cout << std::format("{:#x} ", data);
+    fmtDisplay(mChrData.data, mChrData.index);
+}
+
+void InstructionDecoder::fmtDisplay(std::vector<uint8_t>& data, uint16_t index) const {
+    std::cout << std::format("{:#x}:\t\t", index);
+
+    for (int i = 0; i < data.size(); ++i) {
+        std::cout << std::format("{:#x} ", data[i]);
+
+        if ((i != 0) && i % 16 == 0) {
+            std::cout << "\n";
+            std::cout << std::format("{:#x}:\t\t", index + i);
+        }
     }
 }
 
