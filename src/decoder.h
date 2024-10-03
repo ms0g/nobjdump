@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <array>
 
 #define ROM(n) struct {         \
     std::vector<uint8_t> data;  \
@@ -65,12 +66,13 @@ private:
 
     void displayCHR();
 
-    void fmtDisplay(const std::vector<uint8_t>& data, uint16_t index);
+    template<typename T>
+    void fmtDisplay(const T& data, uint16_t index);
 
     void disassemble();
 
     std::ifstream mRomFile;
-    std::vector<uint8_t> mHeader;
+    std::array<uint8_t, 16> mHeader{};
     ROM(mPrgData);
     ROM(mChrData);
 };

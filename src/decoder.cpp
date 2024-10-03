@@ -8,16 +8,15 @@
 #define MAGIC2 0x53
 #define MAGIC3 0x1A
 
-#define INES_HEADER_SIZE    0x10
-#define PRG_ROM_SIZE        0x4000
-#define CHR_ROM_SIZE        0x2000
+#define INES_HEADER_SIZE 0x10
+#define PRG_ROM_SIZE     0x4000
+#define CHR_ROM_SIZE     0x2000
 
 InstructionDecoder::InstructionDecoder(const std::string& filename) {
     mRomFile.exceptions(std::ifstream::badbit | std::ifstream::failbit);
 
     try {
         mRomFile.open(filename, std::ios::in | std::ios::binary);
-        mHeader.resize(INES_HEADER_SIZE);
         mRomFile.read(reinterpret_cast<char*>(mHeader.data()), mHeader.size());
 
         if (mHeader[0] != MAGIC0 || mHeader[1] != MAGIC1 ||
@@ -81,7 +80,8 @@ void InstructionDecoder::displayCHR() {
     fmtDisplay(mChrData.data, mChrData.index);
 }
 
-void InstructionDecoder::fmtDisplay(const std::vector<uint8_t>& data, uint16_t index) {
+template<typename T>
+void InstructionDecoder::fmtDisplay(const T& data, uint16_t index) {
     for (int i = 0; i < data.size() / 16; i += 16) {
         int k = 0;
         char ascii[16];
@@ -91,8 +91,8 @@ void InstructionDecoder::fmtDisplay(const std::vector<uint8_t>& data, uint16_t i
         }
 
         std::cout << std::format("{:06x}:\t{:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} "
-                                 "{:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} "
-                                 "| {}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{} |\n", index + i,
+                                 "{:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x}"
+                                 "  {}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}\n", index + i,
                                  data[i], data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], data[i + 6],
                                  data[i + 7], data[i + 8], data[i + 9], data[i + 10], data[i + 11], data[i + 12],
                                  data[i + 13], data[i + 14], data[i + 15], ascii[0], ascii[1], ascii[2], ascii[3],
@@ -183,7 +183,7 @@ void InstructionDecoder::disassemble() {
                 std::cout << "CLI" << "\t";
                 break;
             default:
-                std::cout << "Unknown OPCODE" << "\t";
+                std::cout << "." << "\t";
         }
     }
 }
