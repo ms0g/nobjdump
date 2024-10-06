@@ -80,27 +80,6 @@ void InstructionDecoder::displayCHR() {
     fmtDisplay(mChrData.data, mChrData.index);
 }
 
-template<typename T>
-void InstructionDecoder::fmtDisplay(const T& data, uint16_t index) {
-    for (int i = 0; i < data.size() / 16; i += 16) {
-        int k = 0;
-        char ascii[16];
-
-        for (int j = i; j < 16 + i; ++j) {
-            ascii[k++] = isprint(data[j]) ? data[j] : '.';
-        }
-
-        std::cout << std::format("{:06x}:\t{:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} "
-                                 "{:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x}"
-                                 "  {}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}\n", index + i,
-                                 data[i], data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], data[i + 6],
-                                 data[i + 7], data[i + 8], data[i + 9], data[i + 10], data[i + 11], data[i + 12],
-                                 data[i + 13], data[i + 14], data[i + 15], ascii[0], ascii[1], ascii[2], ascii[3],
-                                 ascii[4], ascii[5], ascii[6], ascii[7], ascii[8], ascii[9], ascii[10], ascii[11],
-                                 ascii[12], ascii[13], ascii[14], ascii[15]);
-    }
-}
-
 void InstructionDecoder::disassemble() {
     for (const auto& op: mPrgData.data) {
         switch (static_cast<Opcode>(op)) {
@@ -185,5 +164,26 @@ void InstructionDecoder::disassemble() {
             default:
                 std::cout << "." << "\t";
         }
+    }
+}
+
+template<typename T>
+void InstructionDecoder::fmtDisplay(const T& data, uint16_t index) {
+    for (int i = 0; i < data.size() / 16; i += 16) {
+        int k = 0;
+        char ascii[16];
+
+        for (int j = i; j < 16 + i; ++j) {
+            ascii[k++] = isprint(data[j]) ? data[j] : '.';
+        }
+
+        std::cout << std::format("{:06x}:\t{:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} "
+                                 "{:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x}"
+                                 "  {}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}\n", index + i,
+                                 data[i], data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], data[i + 6],
+                                 data[i + 7], data[i + 8], data[i + 9], data[i + 10], data[i + 11], data[i + 12],
+                                 data[i + 13], data[i + 14], data[i + 15], ascii[0], ascii[1], ascii[2], ascii[3],
+                                 ascii[4], ascii[5], ascii[6], ascii[7], ascii[8], ascii[9], ascii[10], ascii[11],
+                                 ascii[12], ascii[13], ascii[14], ascii[15]);
     }
 }

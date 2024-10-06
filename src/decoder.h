@@ -66,10 +66,10 @@ private:
 
     void displayCHR();
 
+    void disassemble();
+
     template<typename T>
     void fmtDisplay(const T& data, uint16_t index);
-
-    void disassemble();
 
     std::ifstream mRomFile;
     std::array<uint8_t, 16> mHeader{};
