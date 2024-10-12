@@ -198,7 +198,7 @@ enum class Opcode : uint8_t {
 
 class InstructionDecoder {
 public:
-    explicit InstructionDecoder(const std::string& filename);
+    explicit InstructionDecoder(const char* filename);
 
     ~InstructionDecoder();
 

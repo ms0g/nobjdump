@@ -12,7 +12,7 @@
 #define PRG_ROM_SIZE     0x4000
 #define CHR_ROM_SIZE     0x2000
 
-InstructionDecoder::InstructionDecoder(const std::string& filename) {
+InstructionDecoder::InstructionDecoder(const char* filename) {
     mRomFile.exceptions(std::ifstream::badbit | std::ifstream::failbit);
 
     try {

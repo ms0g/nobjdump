@@ -3,7 +3,7 @@
 
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 6
-#define VERSION_PATCH 2
+#define VERSION_PATCH 3
 
 #define STRINGIFY0(s) # s
 #define STRINGIFY(s) STRINGIFY0(s)
@@ -13,7 +13,8 @@ int main(int argc, char** argv) {
     static const char* usage = "OVERVIEW: NES ROM image dumper\n\n"
                                "USAGE: nobjdump [options] <input rom image>\n\n"
                                "OPTIONS:\n"
-                               "  --header              Display ines header\n"
+                               "  --header              Display iNES header\n"
+                               "  --header-detailed     Display detailed info from iNES header\n"
                                "  -d, --disassemble     Display the assembler mnemonics for "
                                "the machine instructions from the rom file\n"
                                "  -c, --chr             Display CHR ROM data\n"
@@ -47,10 +48,7 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
 
-    std::string romfn;
-    romfn = argv[2];
-
-    InstructionDecoder decoder{romfn};
+    InstructionDecoder decoder{argv[2]};
     decoder.decode(opt);
 
     return EXIT_SUCCESS;
