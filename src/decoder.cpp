@@ -161,8 +161,256 @@ void InstructionDecoder::disassemble() {
             case Opcode::CLI:
                 std::cout << "CLI" << "\t";
                 break;
-            default:
-                std::cout << "." << "\t";
+            case Opcode::DEX:
+                break;
+            case Opcode::NOP:
+                break;
+            case Opcode::TAX:
+                break;
+            case Opcode::TSX:
+                break;
+            case Opcode::TXA:
+                break;
+            case Opcode::TXS:
+                break;
+            case Opcode::TYA:
+                break;
+            case Opcode::LDA_IMM:
+                break;
+            case Opcode::LDA_ABS:
+                break;
+            case Opcode::LDA_X_IND_ABS:
+                break;
+            case Opcode::LDA_Y_IND_ABS:
+                break;
+            case Opcode::LDA_ZP:
+                break;
+            case Opcode::LDA_X_IND_ZP:
+                break;
+            case Opcode::LDA_X_IND_ZP_INDIRECT:
+                break;
+            case Opcode::LDA_ZP_INDIRECT_Y_IND:
+                break;
+            case Opcode::LDX_IMM:
+                break;
+            case Opcode::LDX_ABS:
+                break;
+            case Opcode::LDX_Y_IND_ABS:
+                break;
+            case Opcode::LDX_ZP:
+                break;
+            case Opcode::LDX_Y_IND_ZP:
+                break;
+            case Opcode::LDY_IMM:
+                break;
+            case Opcode::LDY_ABS:
+                break;
+            case Opcode::LDY_X_IND_ABS:
+                break;
+            case Opcode::LDY_ZP:
+                break;
+            case Opcode::LDY_X_IND_ZP:
+                break;
+            case Opcode::STA_ABS:
+                break;
+            case Opcode::STA_X_IND_ABS:
+                break;
+            case Opcode::STA_Y_IND_ABS:
+                break;
+            case Opcode::STA_ZP:
+                break;
+            case Opcode::STA_X_IND_ZP:
+                break;
+            case Opcode::STA_X_IND_ZP_INDIRECT:
+                break;
+            case Opcode::STA_ZP_INDIRECT_Y_IND:
+                break;
+            case Opcode::STX_ABS:
+                break;
+            case Opcode::STX_ZP:
+                break;
+            case Opcode::STX_Y_IND_ZP:
+                break;
+            case Opcode::STY_ABS:
+                break;
+            case Opcode::STY_ZP:
+                break;
+            case Opcode::STY_X_IND_ZP:
+                break;
+            case Opcode::ASL_ACC:
+                break;
+            case Opcode::ASL_ABS:
+                break;
+            case Opcode::ASL_X_IND_ABS:
+                break;
+            case Opcode::ASL_ZP:
+                break;
+            case Opcode::ASL_X_IND_ZP:
+                break;
+            case Opcode::LSR_ACC:
+                break;
+            case Opcode::LSR_ABS:
+                break;
+            case Opcode::LSR_X_IND_ABS:
+                break;
+            case Opcode::LSR_ZP:
+                break;
+            case Opcode::LSR_X_IND_ZP:
+                break;
+            case Opcode::ROL_ACC:
+                break;
+            case Opcode::ROL_ABS:
+                break;
+            case Opcode::ROL_X_IND_ABS:
+                break;
+            case Opcode::ROL_ZP:
+                break;
+            case Opcode::ROL_X_IND_ZP:
+                break;
+            case Opcode::ROR_ACC:
+                break;
+            case Opcode::ROR_ABS:
+                break;
+            case Opcode::ROR_X_IND_ABS:
+                break;
+            case Opcode::ROR_ZP:
+                break;
+            case Opcode::ROR_X_IND_ZP:
+                break;
+            case Opcode::AND_IMM:
+                break;
+            case Opcode::AND_ABS:
+                break;
+            case Opcode::AND_X_IND_ABS:
+                break;
+            case Opcode::AND_Y_IND_ABS:
+                break;
+            case Opcode::AND_ZP:
+                break;
+            case Opcode::AND_X_IND_ZP:
+                break;
+            case Opcode::AND_X_IND_ZP_INDIRECT:
+                break;
+            case Opcode::AND_ZP_INDIRECT_Y_IND:
+                break;
+            case Opcode::BIT_ABS:
+                break;
+            case Opcode::BIT_ZP:
+                break;
+            case Opcode::EOR_IMM:
+                break;
+            case Opcode::EOR_ABS:
+                break;
+            case Opcode::EOR_X_IND_ABS:
+                break;
+            case Opcode::EOR_Y_IND_ABS:
+                break;
+            case Opcode::EOR_ZP:
+                break;
+            case Opcode::EOR_X_IND_ZP:
+                break;
+            case Opcode::EOR_X_IND_ZP_INDIRECT:
+                break;
+            case Opcode::EOR_ZP_INDIRECT_Y_IND:
+                break;
+            case Opcode::ORA_IMM:
+                break;
+            case Opcode::ORA_ABS:
+                break;
+            case Opcode::ORA_X_IND_ABS:
+                break;
+            case Opcode::ORA_Y_IND_ABS:
+                break;
+            case Opcode::ORA_ZP:
+                break;
+            case Opcode::ORA_X_IND_ZP:
+                break;
+            case Opcode::ORA_X_IND_ZP_INDIRECT:
+                break;
+            case Opcode::ORA_ZP_INDIRECT_Y_IND:
+                break;
+            case Opcode::ADC_IMM:
+                break;
+            case Opcode::ADC_ABS:
+                break;
+            case Opcode::ADC_X_IND_ABS:
+                break;
+            case Opcode::ADC_Y_IND_ABS:
+                break;
+            case Opcode::ADC_ZP:
+                break;
+            case Opcode::ADC_X_IND_ZP:
+                break;
+            case Opcode::ADC_X_IND_ZP_INDIRECT:
+                break;
+            case Opcode::ADC_ZP_INDIRECT_Y_IND:
+                break;
+            case Opcode::CMP_IMM:
+                break;
+            case Opcode::CMP_ABS:
+                break;
+            case Opcode::CMP_X_IND_ABS:
+                break;
+            case Opcode::CMP_Y_IND_ABS:
+                break;
+            case Opcode::CMP_ZP:
+                break;
+            case Opcode::CMP_X_IND_ZP:
+                break;
+            case Opcode::CMP_X_IND_ZP_INDIRECT:
+                break;
+            case Opcode::CMP_ZP_INDIRECT_Y_IND:
+                break;
+            case Opcode::CPX_IMM:
+                break;
+            case Opcode::CPX_ABS:
+                break;
+            case Opcode::CPX_ZP:
+                break;
+            case Opcode::CPY_IMM:
+                break;
+            case Opcode::CPY_ABS:
+                break;
+            case Opcode::CPY_ZP:
+                break;
+            case Opcode::SBC_IMM:
+                break;
+            case Opcode::SBC_ABS:
+                break;
+            case Opcode::SBC_X_IND_ABS:
+                break;
+            case Opcode::SBC_Y_IND_ABS:
+                break;
+            case Opcode::SBC_ZP:
+                break;
+            case Opcode::SBC_X_IND_ZP:
+                break;
+            case Opcode::SBC_X_IND_ZP_INDIRECT:
+                break;
+            case Opcode::SBC_ZP_INDIRECT_Y_IND:
+                break;
+            case Opcode::DEC_ABS:
+                break;
+            case Opcode::DEC_X_IND_ABS:
+                break;
+            case Opcode::DEC_ZP:
+                break;
+            case Opcode::DEC_X_IND_ZP:
+                break;
+            case Opcode::INC_ABS:
+                break;
+            case Opcode::INC_X_IND_ABS:
+                break;
+            case Opcode::INC_ZP:
+                break;
+            case Opcode::INC_X_IND_ZP:
+                break;
+            case Opcode::JMP_ABS:
+                break;
+            case Opcode::JMP_INDIRECT:
+                break;
+            case Opcode::JSR_ABS:
+                break;
         }
     }
 }
