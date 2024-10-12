@@ -42,6 +42,9 @@ int main(int argc, char** argv) {
         opt = Option::CHR;
     } else if (!std::strcmp(argv[1], "-p") || !std::strcmp(argv[1], "--prg")) {
         opt = Option::PRG;
+    } else {
+        std::cout << usage << std::endl;
+        return EXIT_FAILURE;
     }
 
     std::string romfn;

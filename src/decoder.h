@@ -15,7 +15,7 @@ enum class Option {
     HEADER,
     DISASSEMBLE,
     PRG,
-    CHR,
+    CHR
 };
 
 enum class Opcode : uint8_t {
