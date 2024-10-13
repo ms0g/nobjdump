@@ -85,7 +85,7 @@ void InstructionDecoder::disassemble() {
         if (i > mPrgData.data.size()) break;
 
         uint8_t opcode = mPrgData.data[i];
-        Mnemonic mnemonic = mOpcodeTable.find(opcode);
+        const Mnemonic mnemonic = mOpcodeTable.find(opcode);
 
         if (mnemonic.format == "UNDEFINED")
             continue;
