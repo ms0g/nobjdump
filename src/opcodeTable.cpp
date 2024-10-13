@@ -146,17 +146,22 @@ OpcodeTable::OpcodeTable() {
             {0x4C, MnemonicData{"JMP ${}", AddressingMode::ABS, 2}},
             {0x6C, MnemonicData{"JMP (${})", AddressingMode::ABS_IND, 2}},
             {0x20, MnemonicData{"JSR ${}", AddressingMode::ABS, 2}},
-            {0x90, MnemonicData{"BCC ${}", AddressingMode::REL, 2}},
-            {0xB0, MnemonicData{"BCS ${}", AddressingMode::REL, 2}},
-            {0xF0, MnemonicData{"BEQ ${}", AddressingMode::REL, 2}},
-            {0x30, MnemonicData{"BMI ${}", AddressingMode::REL, 2}},
-            {0xD0, MnemonicData{"BNE ${}", AddressingMode::REL, 2}},
-            {0x10, MnemonicData{"BPL ${}", AddressingMode::REL, 2}},
-            {0x50, MnemonicData{"BVC ${}", AddressingMode::REL, 2}},
-            {0x70, MnemonicData{"BVS ${}", AddressingMode::REL, 2}},
+            {0x90, MnemonicData{"BCC ${}", AddressingMode::REL, 1}},
+            {0xB0, MnemonicData{"BCS ${}", AddressingMode::REL, 1}},
+            {0xF0, MnemonicData{"BEQ ${}", AddressingMode::REL, 1}},
+            {0x30, MnemonicData{"BMI ${}", AddressingMode::REL, 1}},
+            {0xD0, MnemonicData{"BNE ${}", AddressingMode::REL, 1}},
+            {0x10, MnemonicData{"BPL ${}", AddressingMode::REL, 1}},
+            {0x50, MnemonicData{"BVC ${}", AddressingMode::REL, 1}},
+            {0x70, MnemonicData{"BVS ${}", AddressingMode::REL, 1}},
     };
 }
 
 MnemonicData OpcodeTable::find(uint8_t opcode) const {
-    return mOpcodeToMnemonicList.find(opcode)->second;
+    auto found =  mOpcodeToMnemonicList.find(opcode);
+
+    if (found != mOpcodeToMnemonicList.end())
+        return mOpcodeToMnemonicList.find(opcode)->second;
+
+    return {"UNDEFINED", AddressingMode::REL, 1};
 }
