@@ -85,7 +85,7 @@ void InstructionDecoder::disassemble() {
         if (i > mPrgData.data.size()) break;
 
         uint8_t opcode = mPrgData.data[i];
-        MnemonicData mnemonic = mOpcodeTable.find(opcode);
+        Mnemonic mnemonic = mOpcodeTable.find(opcode);
 
         if (mnemonic.format == "UNDEFINED")
             continue;
@@ -96,11 +96,11 @@ void InstructionDecoder::disassemble() {
             std::vector<uint8_t> operand;
             std::string strOPR, hexOPR;
 
-            for (int j = 1; j <= mnemonic.n; ++j) {
+            for (int j = 1; j <= mnemonic.operandCount; ++j) {
                 operand.push_back(mPrgData.data[i + j]);
             }
 
-            i += mnemonic.n;
+            i += mnemonic.operandCount;
 
             for (auto& op: operand) {
                 hexOPR += std::format("{:02X} ", op);

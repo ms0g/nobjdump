@@ -19,19 +19,19 @@ enum class AddressingMode {
     REL
 };
 
-struct MnemonicData {
+struct Mnemonic {
     std::string format;
     AddressingMode mode;
-    int n;
+    int operandCount;
 };
 
 class OpcodeTable {
 public:
     OpcodeTable();
 
-    [[nodiscard]] MnemonicData find(uint8_t opcode) const;
+    [[nodiscard]] Mnemonic find(uint8_t opcode) const;
 
 private:
-    std::unordered_map<uint8_t, MnemonicData> mOpcodeToMnemonicList;
+    std::unordered_map<uint8_t, Mnemonic> mOpcodeToMnemonicList;
 };
 
