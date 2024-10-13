@@ -83,13 +83,17 @@ void InstructionDecoder::displayCHR() {
 void InstructionDecoder::disassemble() {
     for (auto ptrOp = mPrgData.data.begin(); ptrOp != mPrgData.data.end(); ++ptrOp) {
         uint8_t opcode = *ptrOp;
-        OpcodeData mnemonic = mOpcodeTable.find(opcode);
+        MnemonicData mnemonic = mOpcodeTable.find(opcode);
 
-        if (mnemonic.mode == AddressingMode::IMP) {
-            std::cout << std::format("{:06x}:\t{:02x}\t\t{}\n", mPrgData.index++, *ptrOp, mnemonic.format);
+        if (mnemonic.mode == AddressingMode::IMP || mnemonic.mode == AddressingMode::ACC) {
+            std::cout << std::format("{:06x}:\t{:02x}\t\t{}\n", mPrgData.index++, opcode, mnemonic.format);
         } else {
-            uint8_t operand = *(++ptrOp);
-            std::cout << std::format("{:06x}:\t{:02x} {:02x}\t{}\n",
+            std::string operand;
+            for (int i = 0; i < mnemonic.n; ++i) {
+                operand += std::to_string(*(++ptrOp));
+            }
+
+            std::cout << std::format("{:06x}:\t{:02x} {}\t{}\n",
                                      mPrgData.index++,
                                      opcode,
                                      operand,
