@@ -17,7 +17,6 @@ USAGE: nobjdump [options] <input rom image>
 
 OPTIONS:
   --header              Display iNES header
-  --header-detailed     Display detailed info from iNES header
   -d, --disassemble     Display the assembler mnemonics for the machine instructions from the rom file
   -c, --chr             Display CHR ROM data
   -p, --prg             Display PRG ROM data
