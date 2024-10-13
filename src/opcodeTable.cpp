@@ -27,7 +27,6 @@ OpcodeTable::OpcodeTable() {
             {0x8A, Mnemonic{"TXA", AddressingMode::IMP}},
             {0x9A, Mnemonic{"TXS", AddressingMode::IMP}},
             {0x98, Mnemonic{"TYA", AddressingMode::IMP}},
-            {0xEA, Mnemonic{"NOP", AddressingMode::IMP}},
             {0xA9, Mnemonic{"LDA #${}", AddressingMode::IMM, 1}},
             {0xAD, Mnemonic{"LDA ${}", AddressingMode::ABS, 2}},
             {0xBD, Mnemonic{"LDA ${},X", AddressingMode::X_IN_ABS, 2}},
