@@ -81,23 +81,40 @@ void InstructionDecoder::displayCHR() {
 }
 
 void InstructionDecoder::disassemble() {
-    for (auto ptrOp = mPrgData.data.begin(); ptrOp != mPrgData.data.end(); ++ptrOp) {
-        uint8_t opcode = *ptrOp;
+    for (int i = 0; i < mPrgData.data.size(); ++i) {
+        if (i > mPrgData.data.size()) break;
+
+        uint8_t opcode = mPrgData.data[i];
         MnemonicData mnemonic = mOpcodeTable.find(opcode);
 
+        if (mnemonic.format == "UNDEFINED")
+            continue;
+
         if (mnemonic.mode == AddressingMode::IMP || mnemonic.mode == AddressingMode::ACC) {
-            std::cout << std::format("{:06x}:\t{:02x}\t\t{}\n", mPrgData.index++, opcode, mnemonic.format);
+            std::cout << std::format("{:06X}:\t{:02X}\t\t\t{}\n", mPrgData.index++, opcode, mnemonic.format);
         } else {
-            std::string operand;
-            for (int i = 0; i < mnemonic.n; ++i) {
-                operand += std::to_string(*(++ptrOp));
+            std::vector<uint8_t> operand;
+            std::string strOPR, hexOPR;
+
+            for (int j = 1; j <= mnemonic.n; ++j) {
+                operand.push_back(mPrgData.data[i + j]);
             }
 
-            std::cout << std::format("{:06x}:\t{:02x} {}\t{}\n",
+            i += mnemonic.n;
+
+            for (auto& op: operand) {
+                hexOPR += std::format("{:02X} ", op);
+            }
+
+            for (int j = operand.size() - 1; j >= 0; --j) {
+                strOPR += std::format("{:02X}", operand[j]);
+            }
+
+            std::cout << std::format("{:06X}:\t{:02X} {}\t\t{}\n",
                                      mPrgData.index++,
                                      opcode,
-                                     operand,
-                                     std::vformat(mnemonic.format, std::make_format_args(operand)));
+                                     hexOPR,
+                                     std::vformat(mnemonic.format, std::make_format_args(strOPR)));
         }
     }
 }
@@ -112,8 +129,8 @@ void InstructionDecoder::displayFormattedData(const T& data, uint16_t index) {
             ascii[k++] = isprint(data[j]) ? data[j] : '.';
         }
 
-        std::cout << std::format("{:06x}:\t{:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} "
-                                 "{:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x}"
+        std::cout << std::format("{:06X}:\t{:02X} {:02X} {:02X} {:02X} {:02X} {:02X} {:02X} {:02X} "
+                                 "{:02X} {:02X} {:02X} {:02X} {:02X} {:02X} {:02X} {:02X}"
                                  "  {}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}\n", index + i,
                                  data[i], data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], data[i + 6],
                                  data[i + 7], data[i + 8], data[i + 9], data[i + 10], data[i + 11], data[i + 12],
