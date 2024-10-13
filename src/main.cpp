@@ -1,9 +1,9 @@
 #include <iostream>
 #include "decoder.h"
 
-#define VERSION_MAJOR 0
-#define VERSION_MINOR 8
-#define VERSION_PATCH 4
+#define VERSION_MAJOR 1
+#define VERSION_MINOR 0
+#define VERSION_PATCH 0
 
 #define STRINGIFY0(s) # s
 #define STRINGIFY(s) STRINGIFY0(s)
@@ -14,7 +14,6 @@ int main(int argc, char** argv) {
                                "USAGE: nobjdump [options] <input rom image>\n\n"
                                "OPTIONS:\n"
                                "  --header              Display iNES header\n"
-                               "  --header-detailed     Display detailed info from iNES header\n"
                                "  -d, --disassemble     Display the assembler mnemonics for "
                                "the machine instructions from the rom file\n"
                                "  -c, --chr             Display CHR ROM data\n"
