@@ -110,10 +110,8 @@ void InstructionDecoder::disassemble() {
                 strOPR += std::format("{:02X}", operand[j]);
             }
 
-            std::cout << std::format("{:06X}:\t{:02X} {}",
-                                     mPrgData.index++,
-                                     opcode,
-                                     hexOPR);
+            std::cout << std::format("{:06X}:\t{:02X} {}", mPrgData.index++, opcode, hexOPR);
+
             if (operand.size() > 1)
                 std::cout << std::format("\t{}\n", std::vformat(mnemonic.format, std::make_format_args(strOPR)));
             else
