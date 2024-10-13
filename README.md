@@ -1,1 +1,70 @@
 # nobjdump
+A lightweight command-line utility for NES, inspired by GNU objdump, designed to inspect NES ROMs with a focus on the 8-bit architecture.
+## Features
++ `NES-specific insights:` Extract and display headers, and PRG/CHR memory layout.
++ `Disassembly:` Provides a 6502 assembly view for deeper analysis.
++ `Minimalistic:` Fast, portable, and easy to modify for NES-specific needs.
++ `Retro-friendly:` Designed for developers working with NES programming in 6502 assembly or C.
+## Compatibility
++ Works on Linux, Windows, and MacOS systems.
++ Supports standard .nes files that conform to the iNES format.
+## Usage
+```bash
+➜  ~ nobjdump -h
+OVERVIEW: NES ROM image dumper
+
+USAGE: nobjdump [options] <input rom image>
+
+OPTIONS:
+  --header              Display iNES header
+  --header-detailed     Display detailed info from iNES header
+  -d, --disassemble     Display the assembler mnemonics for the machine instructions from the rom file
+  -c, --chr             Display CHR ROM data
+  -p, --prg             Display PRG ROM data
+  -h, --help            Display available options
+  -v, --version         Display the version of this program
+```
+## Example
+```asm
+➜  ~ nobjdump --prg sunset.nes
+000010:	40 48 8A 48 98 48 A9 00 8D 03 20 A9 02 8D 14 40  @H.H.H.... ....@
+000020:	A9 00 8D 05 20 8D 05 20 E6 13 A5 13 C9 0F F0 03  .... .. ........
+000030:	4C 30 80 A9 00 85 13 20 F3 80 A5 12 49 01 85 12  L0..... ....I...
+000040:	A9 90 8D 00 20 A9 1E 8D 01 20 68 A8 68 AA 68 40  .... .... h.h.h@
+000050:	A2 00 95 00 9D 00 01 9D 00 03 9D 00 04 9D 00 05  ................
+000060:	9D 00 06 9D 00 07 A9 FF 9D 00 02 A9 00 E8 D0 E2  ................
+000070:	A9 00 85 12 85 13 85 14 20 86 80 20 CA 80 20 AF  ........ .. .. .
+000080:	80 20 A1 80 2C 02 20 10 FB A9 90 8D 00 20 A9 1E  . ..,. ...... ..
+000090:	8D 01 20 4C 83 80 AE 02 20 A2 3F 8E 06 20 A2 00  .. L.... .?.. ..
+0000A0:	8E 06 20 A2 00 BD 00 88 8D 07 20 E8 E0 20 D0 F5  .. ....... .. ..
+0000B0:	60 A2 00 BD 25 81 9D 00 02 E8 E0 E0 D0 F5 60 AD  `...%.........`.
+0000C0:	02 20 A9 23 8D 06 20 A9 CA 8D 06 20 A2 00 BD 20  . .#.. .... ... 
+0000D0:	88 8D 07 20 E8 E0 40 D0 F5 60 AD 02 20 A9 20 8D  ... ..@..`.. . .
+```
+```asm
+➜  ~ nobjdump --disassemble sunset.nes
+000010:	40		RTI
+000011:	48		PHA
+000012:	8A		TXA
+000013:	48		PHA
+000014:	98		TYA
+000015:	48		PHA
+000016:	A9 00 		LDA #$00
+000017:	8D 03 20 	STA $2003
+000018:	A9 02 		LDA #$02
+000019:	8D 14 40 	STA $4014
+00001A:	A9 00 		LDA #$00
+00001B:	8D 05 20 	STA $2005
+00001C:	8D 05 20 	STA $2005
+00001D:	E6 13 		INC $13
+00001E:	A5 13 		LDA $13
+```
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Credits
+
+Developed by M. Sami Gürpınar
+
