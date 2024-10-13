@@ -2,7 +2,7 @@
 #include "decoder.h"
 
 #define VERSION_MAJOR 0
-#define VERSION_MINOR 6
+#define VERSION_MINOR 7
 #define VERSION_PATCH 3
 
 #define STRINGIFY0(s) # s
