@@ -24,23 +24,23 @@ InstructionDecoder::InstructionDecoder(const char* filename) {
             throw std::invalid_argument("Invalid NES rom file");
         }
 
-        mPrgData.size = mHeader[4];
-        if (!mPrgData.size) {
+        mPrgRom.size = mHeader[4];
+        if (!mPrgRom.size) {
             throw std::invalid_argument("No PRG ROM");
         }
 
-        mPrgData.data.resize(PRG_ROM_SIZE * mPrgData.size);
-        mPrgData.index = INES_HEADER_SIZE;
+        mPrgRom.data.resize(PRG_ROM_SIZE * mPrgRom.size);
+        mPrgRom.index = INES_HEADER_SIZE;
 
-        mChrData.size = mHeader[5];
-        mChrData.data.resize(CHR_ROM_SIZE * mChrData.size);
-        mChrData.index = INES_HEADER_SIZE + mPrgData.data.size();
+        mChrRom.size = mHeader[5];
+        mChrRom.data.resize(CHR_ROM_SIZE * mChrRom.size);
+        mChrRom.index = INES_HEADER_SIZE + mPrgRom.data.size();
 
-        mRomFile.seekg(mPrgData.index);
-        mRomFile.read(reinterpret_cast<char*>(mPrgData.data.data()), mPrgData.data.size());
+        mRomFile.seekg(mPrgRom.index);
+        mRomFile.read(reinterpret_cast<char*>(mPrgRom.data.data()), mPrgRom.data.size());
 
-        mRomFile.seekg(mChrData.index);
-        mRomFile.read(reinterpret_cast<char*>(mChrData.data.data()), mChrData.data.size());
+        mRomFile.seekg(mChrRom.index);
+        mRomFile.read(reinterpret_cast<char*>(mChrRom.data.data()), mChrRom.data.size());
     } catch (std::ifstream::failure& e) {
         std::cerr << "Exception opening/reading ROM file: " << e.what() << "\t";
         exit(EXIT_FAILURE);
@@ -73,49 +73,47 @@ void InstructionDecoder::displayHeader() {
 }
 
 void InstructionDecoder::displayPRG() {
-    displayFormattedData(mPrgData.data, mPrgData.index);
+    displayFormattedData(mPrgRom.data, mPrgRom.index);
 }
 
 void InstructionDecoder::displayCHR() {
-    displayFormattedData(mChrData.data, mChrData.index);
+    displayFormattedData(mChrRom.data, mChrRom.index);
 }
 
 void InstructionDecoder::disassemble() {
-    for (int i = 0; i < mPrgData.data.size(); ++i) {
-        if (i > mPrgData.data.size()) break;
+    for (int i = 0; i < mPrgRom.data.size(); ++i) {
+        //if (i > mPrgRom.data.size()) break;
 
-        uint8_t opcode = mPrgData.data[i];
+        uint8_t opcode = mPrgRom.data[i];
         const Mnemonic mnemonic = mOpcodeTable.find(opcode);
 
         if (mnemonic.format == "UNDEFINED")
             continue;
 
         if (mnemonic.mode == AddressingMode::IMP || mnemonic.mode == AddressingMode::ACC) {
-            std::cout << std::format("{:06X}:\t{:02X}\t\t\t{}\n", mPrgData.index++, opcode, mnemonic.format);
+            std::cout << std::format("{:06X}:\t{:02X}\t\t\t{}\n", mPrgRom.index++, opcode, mnemonic.format);
         } else {
-            std::vector<uint8_t> operand;
+            std::vector<uint8_t> operands;
             std::string strOPR, hexOPR;
 
             for (int j = 1; j <= mnemonic.operandCount; ++j) {
-                operand.push_back(mPrgData.data[i + j]);
+                operands.push_back(mPrgRom.data[i + j]);
             }
 
             i += mnemonic.operandCount;
 
-            for (auto& op: operand) {
-                hexOPR += std::format("{:02X} ", op);
+            for (int j = 0; j < operands.size(); ++j) {
+                hexOPR += std::format("{:02X} ", operands[j]);
+                strOPR += std::format("{:02X}", operands[operands.size() - j - 1]);
             }
 
-            for (int j = operand.size() - 1; j >= 0; --j) {
-                strOPR += std::format("{:02X}", operand[j]);
-            }
+            std::cout << std::format("{:06X}:\t{:02X} {}", mPrgRom.index++, opcode, hexOPR);
 
-            std::cout << std::format("{:06X}:\t{:02X} {}", mPrgData.index++, opcode, hexOPR);
-
-            if (operand.size() > 1)
+            if (operands.size() > 1) {
                 std::cout << std::format("\t{}\n", std::vformat(mnemonic.format, std::make_format_args(strOPR)));
-            else
+            } else {
                 std::cout << std::format("\t\t{}\n", std::vformat(mnemonic.format, std::make_format_args(strOPR)));
+            }
         }
     }
 }

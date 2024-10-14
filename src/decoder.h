@@ -46,8 +46,8 @@ private:
 
     std::ifstream mRomFile;
     std::array<uint8_t, 16> mHeader{};
-    ROM(mPrgData);
-    ROM(mChrData);
+    ROM(mPrgRom);
+    ROM(mChrRom);
 
     OpcodeTable mOpcodeTable;
 };
