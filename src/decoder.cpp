@@ -90,7 +90,7 @@ void InstructionDecoder::disassemble() {
         if (mnemonic.mode == AddressingMode::IMP ||
             mnemonic.mode == AddressingMode::ACC ||
             mnemonic.format == "UNDEFINED") {
-            std::cout << std::format("{:06X}:\t{:02X}\t\t\t{}\n", mPrgRom.index++, opcode, mnemonic.format);
+            std::cout << std::format("{:06X}:\t{:02X}\t\t{}\n", mPrgRom.index++, opcode, mnemonic.format);
         } else {
             std::vector<uint8_t> operands;
             std::string mnemOpr, byteOpr;
