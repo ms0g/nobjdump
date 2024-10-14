@@ -84,7 +84,6 @@ void InstructionDecoder::displayCHR() {
 void InstructionDecoder::disassemble() {
     for (int i = 0; i < mPrgRom.data.size(); ++i) {
         uint8_t opcode = mPrgRom.data[i];
-
         const Mnemonic mnemonic = mOpcodeTable.find(opcode);
 
         if (mnemonic.mode == AddressingMode::IMP ||
