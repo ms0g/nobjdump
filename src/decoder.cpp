@@ -8,9 +8,10 @@
 #define MAGIC2 0x53
 #define MAGIC3 0x1A
 
+#define PRG_ROM_SIZE 0x4000
+#define CHR_ROM_SIZE 0x2000
+#define BYTE_PER_ROW 16
 #define INES_HEADER_SIZE 0x10
-#define PRG_ROM_SIZE     0x4000
-#define CHR_ROM_SIZE     0x2000
 
 InstructionDecoder::InstructionDecoder(const char* filename) {
     mRomFile.exceptions(std::ifstream::badbit | std::ifstream::failbit);
@@ -82,11 +83,9 @@ void InstructionDecoder::displayCHR() {
 
 void InstructionDecoder::disassemble() {
     for (int i = 0; i < mPrgRom.data.size(); ++i) {
-        //if (i > mPrgRom.data.size()) break;
-
         uint8_t opcode = mPrgRom.data[i];
-        const Mnemonic mnemonic = mOpcodeTable.find(opcode);
 
+        const Mnemonic mnemonic = mOpcodeTable.find(opcode);
         if (mnemonic.format == "UNDEFINED")
             continue;
 
@@ -94,7 +93,7 @@ void InstructionDecoder::disassemble() {
             std::cout << std::format("{:06X}:\t{:02X}\t\t\t{}\n", mPrgRom.index++, opcode, mnemonic.format);
         } else {
             std::vector<uint8_t> operands;
-            std::string strOPR, hexOPR;
+            std::string mnemOpr, byteOpr;
 
             for (int j = 1; j <= mnemonic.operandCount; ++j) {
                 operands.push_back(mPrgRom.data[i + j]);
@@ -103,16 +102,16 @@ void InstructionDecoder::disassemble() {
             i += mnemonic.operandCount;
 
             for (int j = 0; j < operands.size(); ++j) {
-                hexOPR += std::format("{:02X} ", operands[j]);
-                strOPR += std::format("{:02X}", operands[operands.size() - j - 1]);
+                byteOpr += std::format("{:02X} ", operands[j]);
+                mnemOpr += std::format("{:02X}", operands[operands.size() - j - 1]);
             }
 
-            std::cout << std::format("{:06X}:\t{:02X} {}", mPrgRom.index++, opcode, hexOPR);
+            std::cout << std::format("{:06X}:\t{:02X} {}", mPrgRom.index++, opcode, byteOpr);
 
             if (operands.size() > 1) {
-                std::cout << std::format("\t{}\n", std::vformat(mnemonic.format, std::make_format_args(strOPR)));
+                std::cout << std::format("\t{}\n", std::vformat(mnemonic.format, std::make_format_args(mnemOpr)));
             } else {
-                std::cout << std::format("\t\t{}\n", std::vformat(mnemonic.format, std::make_format_args(strOPR)));
+                std::cout << std::format("\t\t{}\n", std::vformat(mnemonic.format, std::make_format_args(mnemOpr)));
             }
         }
     }
@@ -120,11 +119,11 @@ void InstructionDecoder::disassemble() {
 
 template<typename T>
 void InstructionDecoder::displayFormattedData(const T& data, uint16_t index) {
-    for (int i = 0; i < data.size() / 16; i += 16) {
+    for (int i = 0; i < data.size() / BYTE_PER_ROW; i += BYTE_PER_ROW) {
         int k = 0;
-        char ascii[16];
+        char ascii[BYTE_PER_ROW];
 
-        for (int j = i; j < 16 + i; ++j) {
+        for (int j = i; j < BYTE_PER_ROW + i; ++j) {
             ascii[k++] = isprint(data[j]) ? data[j] : '.';
         }
 
