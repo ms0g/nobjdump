@@ -10,7 +10,7 @@
 
 #define PRG_ROM_SIZE 0x4000
 #define CHR_ROM_SIZE 0x2000
-#define BYTE_PER_ROW 16
+#define BYTES_PER_ROW 16
 #define INES_HEADER_SIZE 0x10
 
 InstructionDecoder::InstructionDecoder(const char* filename) {
@@ -119,11 +119,11 @@ void InstructionDecoder::disassemble() {
 
 template<typename T>
 void InstructionDecoder::displayFormattedData(const T& data, uint16_t index) {
-    for (int i = 0; i < data.size() / BYTE_PER_ROW; i += BYTE_PER_ROW) {
+    for (int i = 0; i < data.size() / BYTES_PER_ROW; i += BYTES_PER_ROW) {
         int k = 0;
-        char ascii[BYTE_PER_ROW];
+        char ascii[BYTES_PER_ROW];
 
-        for (int j = i; j < BYTE_PER_ROW + i; ++j) {
+        for (int j = i; j < BYTES_PER_ROW + i; ++j) {
             ascii[k++] = isprint(data[j]) ? data[j] : '.';
         }
 
