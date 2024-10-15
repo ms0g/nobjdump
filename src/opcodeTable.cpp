@@ -172,7 +172,7 @@ Mnemonic OpcodeTable::find(uint8_t opcode) const {
     auto found = mOpcodeToMnemonicList.find(opcode);
 
     if (found != mOpcodeToMnemonicList.end())
-        return mOpcodeToMnemonicList.find(opcode)->second;
+        return found->second;
 
-    return {"UNDEFINED", AddressingMode::REL, 1};
+    return {"UNDEFINED", AddressingMode::REL};
 }
