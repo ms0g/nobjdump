@@ -29,7 +29,7 @@ class OpcodeTable {
 public:
     OpcodeTable();
 
-    [[nodiscard]] Mnemonic find(uint8_t opcode) const;
+    [[nodiscard]] const Mnemonic& find(uint8_t opcode) const;
 
 private:
     std::unordered_map<uint8_t, Mnemonic> mOpcodeToMnemonicList;
