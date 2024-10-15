@@ -165,7 +165,7 @@ OpcodeTable::OpcodeTable() {
             {0x10, {REL("BPL"), AddressingMode::REL, 1}},
             {0x50, {REL("BVC"), AddressingMode::REL, 1}},
             {0x70, {REL("BVS"), AddressingMode::REL, 1}},
-            {0xFF, {"UNDEFINED", AddressingMode::REL}}
+            {0xFF, {"UNDEFINED", AddressingMode::UNDEF}}
     };
 }
 

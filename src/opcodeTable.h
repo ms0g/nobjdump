@@ -16,7 +16,8 @@ enum class AddressingMode {
     Y_IN_ZP,
     X_IN_ZP_IND,
     ZP_IND_Y_IN,
-    REL
+    REL,
+    UNDEF
 };
 
 struct Mnemonic {
