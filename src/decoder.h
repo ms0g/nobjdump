@@ -26,10 +26,6 @@ public:
 
     ~InstructionDecoder();
 
-    InstructionDecoder(const InstructionDecoder&) = delete;
-
-    InstructionDecoder& operator=(const InstructionDecoder&) = delete;
-
     void decode(Option opt);
 
 private:
