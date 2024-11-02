@@ -1,13 +1,13 @@
 # nobjdump
-A lightweight command-line utility for NES, inspired by GNU objdump, designed to inspect NES ROMs with a focus on the 8-bit architecture.
+<img src="img/logo.png" alt="image" width="194" height="auto">
+
+A lightweight command-line utility for NES, inspired by GNU objdump, designed to inspect NES ROMs.
 ## Features
 + `NES-specific insights:` Extract and display headers, and PRG/CHR memory layout.
-+ `Disassembly:` Provides a 6502 assembly view for deeper analysis.
-+ `Minimalistic:` Fast, portable, and easy to modify for NES-specific needs.
-+ `Retro-friendly:` Designed for developers working with NES programming in 6502 assembly or C.
++ `Disassembly:` Translate the 6502 opcode to the related mnemonics.
 ## Compatibility
 + Works on Linux, Windows, and MacOS systems.
-+ Supports standard .nes files that conform to the iNES format.
++ Supports standard `.nes` files that conform to the iNES format.
 ## Usage
 ```bash
 ➜  ~ nobjdump -h
@@ -17,7 +17,7 @@ USAGE: nobjdump [options] <input rom image>
 
 OPTIONS:
   --header              Display iNES header
-  -d, --disassemble     Display the assembler mnemonics for the machine instructions from the rom file
+  -d, --disassemble     Display the assembler mnemonics for the machine instructions
   -c, --chr             Display CHR ROM data
   -p, --prg             Display PRG ROM data
   -h, --help            Display available options
@@ -25,7 +25,7 @@ OPTIONS:
 ```
 ## Example
 ```asm
-➜  ~ nobjdump --prg sunset.nes
+➜  ~ nobjdump -p sunset.nes
 000010:	40 48 8A 48 98 48 A9 00 8D 03 20 A9 02 8D 14 40  @H.H.H.... ....@
 000020:	A9 00 8D 05 20 8D 05 20 E6 13 A5 13 C9 0F F0 03  .... .. ........
 000030:	4C 30 80 A9 00 85 13 20 F3 80 A5 12 49 01 85 12  L0..... ....I...
@@ -41,7 +41,7 @@ OPTIONS:
 0000D0:	88 8D 07 20 E8 E0 40 D0 F5 60 AD 02 20 A9 20 8D  ... ..@..`.. . .
 ```
 ```asm
-➜  ~ nobjdump --disassemble sunset.nes
+➜  ~ nobjdump -d sunset.nes
 000010:	40		RTI
 000011:	48		PHA
 000012:	8A		TXA
