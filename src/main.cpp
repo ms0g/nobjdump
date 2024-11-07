@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
         } else if (argc == 2 && (!std::strcmp(argv[1], "-v") || !std::strcmp(argv[1], "--version"))) {
             std::cout << "nobjdump version " << VERSION << std::endl;
         } else {
-            std::cout << usage << std::endl;
+            std::cerr << usage << std::endl;
             return EXIT_FAILURE;
         }
         return EXIT_SUCCESS;
@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
     } else if (!std::strcmp(argv[1], "-p") || !std::strcmp(argv[1], "--prg")) {
         opt = Option::PRG;
     } else {
-        std::cout << usage << std::endl;
+        std::cerr << usage << std::endl;
         return EXIT_FAILURE;
     }
 
