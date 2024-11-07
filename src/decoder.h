@@ -47,4 +47,14 @@ private:
     ROM(mChrRom);
 
     OpcodeTable mOpcodeTable;
+
+    static constexpr uint8_t MAGIC0 = 0x4E;
+    static constexpr uint8_t MAGIC1 = 0x45;
+    static constexpr uint8_t MAGIC2 = 0x53;
+    static constexpr uint8_t MAGIC3 = 0x1A;
+
+    static constexpr int PRG_ROM_SIZE = 16384;
+    static constexpr int CHR_ROM_SIZE = 8192;
+    static constexpr int BYTES_PER_ROW = 16;
+    static constexpr int INES_HEADER_SIZE = 16;
 };

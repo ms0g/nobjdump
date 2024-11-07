@@ -3,16 +3,6 @@
 #include <stdexcept>
 #include <format>
 
-#define MAGIC0 0x4E
-#define MAGIC1 0x45
-#define MAGIC2 0x53
-#define MAGIC3 0x1A
-
-#define PRG_ROM_SIZE 0x4000
-#define CHR_ROM_SIZE 0x2000
-#define BYTES_PER_ROW 16
-#define INES_HEADER_SIZE 0x10
-
 InstructionDecoder::InstructionDecoder(const char* filename) {
     mRomFile.exceptions(std::ifstream::badbit | std::ifstream::failbit);
 
