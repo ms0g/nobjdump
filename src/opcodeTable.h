@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <cstdint>
 #include <unordered_map>
 
 enum class AddressingMode {
@@ -23,7 +24,7 @@ enum class AddressingMode {
 struct Mnemonic {
     std::string format;
     AddressingMode mode;
-    int operandCount;
+    uint32_t operandCount;
 };
 
 class OpcodeTable {

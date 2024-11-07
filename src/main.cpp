@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include "decoder.h"
 
 #define VERSION_MAJOR 1
