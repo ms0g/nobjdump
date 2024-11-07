@@ -25,6 +25,19 @@ OPTIONS:
 ```
 ## Example
 ```asm
+➜  ~ nobjdump --header sunset.nes
+iNES Header:
+    Magic Number: 	4E 45 53 1A
+    Size of PRG ROM: 	32768
+    Size of CHR ROM: 	8192
+    Flags 6: 		0x0
+    Flags 7: 		0x0
+    Flags 8: 		0x0
+    Flags 9: 		0x0
+    Flags 10:		0x0
+    Unused padding:	0x0
+```
+```asm
 ➜  ~ nobjdump -p sunset.nes
 000010:	40 48 8A 48 98 48 A9 00 8D 03 20 A9 02 8D 14 40  @H.H.H.... ....@
 000020:	A9 00 8D 05 20 8D 05 20 E6 13 A5 13 C9 0F F0 03  .... .. ........
@@ -60,10 +73,8 @@ OPTIONS:
 ```
 
 ## License
-
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Credits
-
 Developed by M. Sami Gürpınar
 
