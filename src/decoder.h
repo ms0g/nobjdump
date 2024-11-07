@@ -7,19 +7,12 @@
 #include <array>
 #include "opcodeTable.h"
 
-#define ROM(n) struct {         \
-    std::vector<uint8_t> data;  \
-    uint16_t index;             \
-    uint8_t size;               \
-    } n                         \
-
 enum class Option {
     HEADER,
     DISASSEMBLE,
     PRG,
     CHR
 };
-
 
 class InstructionDecoder {
 public:
@@ -43,9 +36,15 @@ private:
 
     std::ifstream mRomFile;
     std::array<uint8_t, 16> mHeader{};
-    ROM(mPrgRom);
-    ROM(mChrRom);
 
+    struct ROM {
+        uint16_t index;
+        uint8_t size;
+        std::vector<uint8_t> data;
+    };
+
+    ROM mPrgRom;
+    ROM mChrRom;
     OpcodeTable mOpcodeTable;
 
     static constexpr uint8_t MAGIC0 = 0x4E;
