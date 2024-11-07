@@ -60,7 +60,20 @@ void InstructionDecoder::decode(Option opt) {
 }
 
 void InstructionDecoder::displayHeader() {
-    displayFormattedData(mHeader, 0);
+    std::cout << std::format("iNES Header:\n"
+                             "    Magic Number: \t{:02X} {:02X} {:02X} {:02X}\n"
+                             "    Size of PRG ROM: \t{}\n"
+                             "    Size of CHR ROM: \t{}\n"
+                             "    Flags 6: \t\t{:#02x}\n"
+                             "    Flags 7: \t\t{:#02x}\n"
+                             "    Flags 8: \t\t{:#02x}\n"
+                             "    Flags 9: \t\t{:#02x}\n"
+                             "    Flags 10:\t\t{:#02x}\n"
+                             "    Unused padding:\t{:#02x}\n",
+                             mHeader[0], mHeader[1], mHeader[2], mHeader[3], mPrgRom.data.size(), mChrRom.data.size(),
+                             mHeader[6], mHeader[7],  mHeader[8],  mHeader[9], mHeader[10], mHeader[11]);
+
+
 }
 
 void InstructionDecoder::displayPRG() {
