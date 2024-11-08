@@ -121,9 +121,8 @@ void InstructionDecoder::disassemble() {
     }
 }
 
-template<typename T>
-void InstructionDecoder::displayFormattedData(const T& data, uint16_t index) {
-    for (auto i = 0; i < data.size() / BYTES_PER_ROW; i += BYTES_PER_ROW) {
+void InstructionDecoder::displayFormattedData(const std::vector<uint8_t>& data, uint16_t index) {
+    for (int i = 0; i < data.size() / BYTES_PER_ROW; i += BYTES_PER_ROW) {
         int k = 0;
         char ascii[BYTES_PER_ROW];
 

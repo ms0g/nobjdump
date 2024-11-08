@@ -31,10 +31,9 @@ private:
 
     void disassemble();
 
-    template<typename T>
-    void displayFormattedData(const T& data, uint16_t index);
+    void displayFormattedData(const std::vector<uint8_t>& data, uint16_t index);
 
-    std::ifstream mRomFile;
+    std::ifstream mRomFile{};
     std::array<uint8_t, 16> mHeader{};
 
     struct ROM {
@@ -43,8 +42,8 @@ private:
         std::vector<uint8_t> data;
     };
 
-    ROM mPrgRom;
-    ROM mChrRom;
+    ROM mPrgRom{};
+    ROM mChrRom{};
     OpcodeTable mOpcodeTable;
 
     static constexpr uint8_t MAGIC0 = 0x4E;
