@@ -85,8 +85,10 @@ void InstructionDecoder::displayCHR() {
 }
 
 void InstructionDecoder::disassemble() {
-    for (auto ptrOpcode = mPrgRom.data.begin(); ptrOpcode != mPrgRom.data.end(); ++ptrOpcode) {
-        uint8_t opcode = *ptrOpcode;
+    for (int i = 0; i < mPrgRom.data.size(); ++i) {
+        uint8_t* pData = &mPrgRom.data[i];
+        uint8_t opcode = *pData;
+
         const Mnemonic& mnemonic = mOpcodeTable.find(opcode);
 
         if (mnemonic.mode == AddressingMode::IMP ||
@@ -98,10 +100,10 @@ void InstructionDecoder::disassemble() {
             std::string mnemOpr, byteOpr;
 
             for (int j = 1; j <= mnemonic.operandCount; ++j) {
-                operands.push_back(*(ptrOpcode + j));
+                operands.push_back(*(pData + j));
             }
 
-            ptrOpcode += mnemonic.operandCount;
+            i += mnemonic.operandCount;
 
             for (int j = 0; j < operands.size(); ++j) {
                 byteOpr += std::format("{:02X} ", operands[j]);
