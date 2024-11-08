@@ -28,8 +28,8 @@ OPTIONS:
 ➜  ~ nobjdump --header sunset.nes
 iNES Header:
     Magic Number: 	4E 45 53 1A
-    Size of PRG ROM: 	32768
-    Size of CHR ROM: 	8192
+    Size of PRG ROM: 	32768 (2 count of 16 KB units)
+    Size of CHR ROM: 	8192 (1 count of 8 KB units)
     Flags 6: 		0x0
     Flags 7: 		0x0
     Flags 8: 		0x0
