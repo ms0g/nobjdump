@@ -14,14 +14,14 @@ int main(int argc, char** argv) {
     static const char* usage = "OVERVIEW: NES ROM image dumper\n\n"
                                "USAGE: nobjdump [options] <input rom image>\n\n"
                                "OPTIONS:\n"
-                               "  --header              Display iNES header\n"
+                               "  -h, --header              Display iNES header\n"
                                "  -d, --disassemble     Display the assembler mnemonics for the machine instructions\n"
                                "  -c, --chr             Display CHR ROM data\n"
                                "  -p, --prg             Display PRG ROM data\n"
-                               "  -h, --help            Display available options\n"
+                               "  --help                Display available options\n"
                                "  -v, --version         Display the version of this program\n";
     if (argc < 3) {
-        if (argc == 2 && (!std::strcmp(argv[1], "-h") || !std::strcmp(argv[1], "--help"))) {
+        if (argc == 2 && !std::strcmp(argv[1], "--help")) {
             std::cout << usage << std::endl;
         } else if (argc == 2 && (!std::strcmp(argv[1], "-v") || !std::strcmp(argv[1], "--version"))) {
             std::cout << "nobjdump version " << VERSION << std::endl;
@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 
     Option opt;
 
-    if (!std::strcmp(argv[1], "--header")) {
+    if (!std::strcmp(argv[1], "-h") || !std::strcmp(argv[1], "--header")) {
         opt = Option::HEADER;
     } else if (!std::strcmp(argv[1], "-d") || !std::strcmp(argv[1], "--disassemble")) {
         opt = Option::DISASSEMBLE;
