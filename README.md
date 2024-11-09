@@ -16,16 +16,16 @@ OVERVIEW: NES ROM image dumper
 USAGE: nobjdump [options] <input rom image>
 
 OPTIONS:
-  --header              Display iNES header
+  -h, --header          Display iNES header
   -d, --disassemble     Display the assembler mnemonics for the machine instructions
   -c, --chr             Display CHR ROM data
   -p, --prg             Display PRG ROM data
-  -h, --help            Display available options
+  --help                Display available options
   -v, --version         Display the version of this program
 ```
 ## Example
 ```asm
-➜  ~ nobjdump --header sunset.nes
+➜  ~ nobjdump -h sunset.nes
 iNES Header:
     Magic Number: 	4E 45 53 1A
     Size of PRG ROM: 	32768 (2 count of 16 KB units)
