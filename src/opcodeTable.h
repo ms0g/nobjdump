@@ -5,20 +5,12 @@
 #include <unordered_map>
 
 enum class AddressingMode {
-    IMP,
-    ACC,
-    IMM,
-    ABS,
-    X_IN_ABS,
-    Y_IN_ABS,
-    ABS_IND,
-    ZP,
-    X_IN_ZP,
-    Y_IN_ZP,
-    X_IN_ZP_IND,
-    ZP_IND_Y_IN,
-    REL,
-    UNDEF
+    IMP, ACC, IMM, ABS,
+    X_IN_ABS, Y_IN_ABS,
+    ABS_IND, ZP,
+    X_IN_ZP, Y_IN_ZP,
+    X_IN_ZP_IND, ZP_IND_Y_IN,
+    REL, UNDEF
 };
 
 struct Mnemonic {
