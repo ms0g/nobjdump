@@ -84,17 +84,15 @@ void InstructionDecoder::displayCHR() {
 }
 
 void InstructionDecoder::disassemble() {
-    for (int i = 0; i < mPrgRom.data.size(); ++i) {
+    for (uint32_t i = 0; i < mPrgRom.data.size(); ++i) {
         uint8_t* pData = &mPrgRom.data[i];
         uint8_t opcode = *pData;
 
         const Mnemonic& mnemonic = mOpcodeTable.find(opcode);
 
-        if (mnemonic.mode == AddressingMode::IMP ||
-            mnemonic.mode == AddressingMode::ACC ||
-            mnemonic.mode == AddressingMode::UNDEF) {
-            std::cout << std::format("{:06X}:\t{:02X}\t\t{}\n", mPrgRom.index++, opcode, mnemonic.format);
-        } else {
+        if (mnemonic.mode != AddressingMode::IMP &&
+            mnemonic.mode != AddressingMode::ACC &&
+            mnemonic.mode != AddressingMode::UNDEF) {
             std::vector<uint8_t> operands;
             std::string mnemOpr, byteOpr;
 
@@ -109,13 +107,12 @@ void InstructionDecoder::disassemble() {
                 mnemOpr += std::format("{:02X}", operands[operands.size() - j - 1]);
             }
 
-            std::cout << std::format("{:06X}:\t{:02X} {}", mPrgRom.index++, opcode, byteOpr);
+            std::cout << std::format("{:06X}:\t{:02X} {}{}{}\n", mPrgRom.index++, opcode, byteOpr,
+                                     operands.size() == 2 ? "\t" : "\t\t",
+                                     std::vformat(mnemonic.format, std::make_format_args(mnemOpr)));
+        } else {
+            std::cout << std::format("{:06X}:\t{:02X}\t\t{}\n", mPrgRom.index++, opcode, mnemonic.format);
 
-            if (operands.size() > 1) {
-                std::cout << std::format("\t{}\n", std::vformat(mnemonic.format, std::make_format_args(mnemOpr)));
-            } else {
-                std::cout << std::format("\t\t{}\n", std::vformat(mnemonic.format, std::make_format_args(mnemOpr)));
-            }
         }
     }
 }
