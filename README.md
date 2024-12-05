@@ -1,6 +1,4 @@
 # nobjdump
-<img src="img/logo.png" alt="image" width="194" height="auto">
-
 A lightweight command-line utility for NES, inspired by GNU objdump, designed to inspect NES ROMs.
 ## Features
 + `NES-specific insights:` Extract and display headers, and PRG/CHR memory layout.
