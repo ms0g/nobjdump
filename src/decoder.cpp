@@ -111,7 +111,8 @@ void InstructionDecoder::disassemble() {
                                      operands.size() == 2 ? "\t" : "\t\t",
                                      std::vformat(mnemonic.format, std::make_format_args(mnemOpr)));
         } else {
-            std::cout << std::format("{:06X}:\t{:02X}\t\t{}\n", mPrgRom.index++, opcode, mnemonic.format);
+            std::cout << std::format("{:06X}:\t{:02X}\t\t{}\n", mPrgRom.index++, opcode,
+                                     mnemonic.mode == AddressingMode::UNDEF ? "UNDEFINED" : mnemonic.format);
 
         }
     }
