@@ -2,7 +2,6 @@
 
 #include <fstream>
 #include <cstdint>
-#include <string>
 #include <vector>
 #include <array>
 #include "opcodeTable.h"
@@ -12,6 +11,12 @@ enum class Option {
     DISASSEMBLE,
     PRG,
     CHR
+};
+
+struct Rom {
+    uint16_t index;
+    uint8_t size;
+    std::vector<uint8_t> data;
 };
 
 class InstructionDecoder {
@@ -25,9 +30,7 @@ public:
 private:
     void displayHeader();
 
-    void displayPRG();
-
-    void displayCHR();
+    void displayROM(const Rom& rom);
 
     void disassemble();
 
@@ -36,14 +39,8 @@ private:
     std::ifstream mRomFile{};
     std::array<uint8_t, 16> mHeader{};
 
-    struct ROM {
-        uint16_t index;
-        uint8_t size;
-        std::vector<uint8_t> data;
-    };
-
-    ROM mPrgRom{};
-    ROM mChrRom{};
+    Rom mPrgRom{};
+    Rom mChrRom{};
     OpcodeTable mOpcodeTable;
 
     static constexpr uint8_t MAGIC0 = 0x4E;

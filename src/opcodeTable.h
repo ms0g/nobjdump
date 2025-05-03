@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
 #include <cstdint>
-#include <unordered_map>
 
 enum class AddressingMode {
     UNDEF, IMP, ACC, IMM, ABS,
@@ -14,7 +12,7 @@ enum class AddressingMode {
 };
 
 struct Mnemonic {
-    std::string format;
+    const char* format;
     AddressingMode mode;
     uint32_t operandCount;
 };
@@ -26,6 +24,6 @@ public:
     [[nodiscard]] const Mnemonic& find(uint8_t opcode) const;
 
 private:
-    Mnemonic mMnemonicFromOpcode[256];
+    Mnemonic mMnemonicFromOpcode[256]{};
 };
 

@@ -42,7 +42,7 @@ InstructionDecoder::~InstructionDecoder() {
     mRomFile.close();
 }
 
-void InstructionDecoder::decode(Option opt) {
+void InstructionDecoder::decode(const Option opt) {
     switch (opt) {
         case Option::HEADER:
             displayHeader();
@@ -51,10 +51,10 @@ void InstructionDecoder::decode(Option opt) {
             disassemble();
             break;
         case Option::PRG:
-            displayPRG();
+            displayROM(mPrgRom);
             break;
         case Option::CHR:
-            displayCHR();
+            displayROM(mChrRom);
             break;
     }
 }
@@ -75,17 +75,13 @@ void InstructionDecoder::displayHeader() {
                              mHeader[10], mHeader[11]);
 }
 
-void InstructionDecoder::displayPRG() {
-    displayFormattedData(mPrgRom.data, mPrgRom.index);
-}
-
-void InstructionDecoder::displayCHR() {
-    displayFormattedData(mChrRom.data, mChrRom.index);
+void InstructionDecoder::displayROM(const Rom& rom) {
+    displayFormattedData(rom.data, rom.index);
 }
 
 void InstructionDecoder::disassemble() {
     for (uint32_t i = 0; i < mPrgRom.data.size(); ++i) {
-        uint8_t* pData = &mPrgRom.data[i];
+        const uint8_t* pData = &mPrgRom.data[i];
         uint8_t opcode = *pData;
 
         const Mnemonic& mnemonic = mOpcodeTable.find(opcode);
@@ -113,7 +109,6 @@ void InstructionDecoder::disassemble() {
         } else {
             std::cout << std::format("{:06X}:\t{:02X}\t\t{}\n", mPrgRom.index++, opcode,
                                      mnemonic.mode == AddressingMode::UNDEF ? "UNDEFINED" : mnemonic.format);
-
         }
     }
 }

@@ -1,4 +1,5 @@
 #include "opcodeTable.h"
+#include <cstring>
 
 #define IMM(OPCODE) OPCODE " #${}"
 #define ABS(OPCODE) OPCODE " ${}"
@@ -168,6 +169,6 @@ OpcodeTable::OpcodeTable() {
     mMnemonicFromOpcode[0x70] = {REL("BVS"), AddressingMode::REL, 1};
 }
 
-const Mnemonic& OpcodeTable::find(uint8_t opcode) const {
+const Mnemonic& OpcodeTable::find(const uint8_t opcode) const {
     return mMnemonicFromOpcode[opcode];
 }
