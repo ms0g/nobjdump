@@ -73,6 +73,4 @@ iNES Header:
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-## Credits
-Developed by M. Sami Gürpınar
 
