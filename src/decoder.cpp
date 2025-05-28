@@ -28,10 +28,10 @@ InstructionDecoder::InstructionDecoder(const char* filename) {
         mChrRom.index = INES_HEADER_SIZE + mPrgRom.data.size();
 
         mRomFile.seekg(mPrgRom.index);
-        mRomFile.read(reinterpret_cast<char*>(mPrgRom.data.data()), mPrgRom.data.size());
+        mRomFile.read(reinterpret_cast<char*>(mPrgRom.data.data()), static_cast<long>(mPrgRom.data.size()));
 
         mRomFile.seekg(mChrRom.index);
-        mRomFile.read(reinterpret_cast<char*>(mChrRom.data.data()), mChrRom.data.size());
+        mRomFile.read(reinterpret_cast<char*>(mChrRom.data.data()), static_cast<long>(mChrRom.data.size()));
     } catch (std::ifstream::failure& e) {
         std::cerr << "Exception opening/reading ROM file: " << e.what() << "\t";
         exit(EXIT_FAILURE);
@@ -113,7 +113,7 @@ void InstructionDecoder::disassemble() {
     }
 }
 
-void InstructionDecoder::displayFormattedData(const std::vector<uint8_t>& data, uint16_t index) {
+void InstructionDecoder::displayFormattedData(const std::vector<uint8_t>& data, const uint16_t index) {
     for (int i = 0; i < data.size() / BYTES_PER_ROW; i += BYTES_PER_ROW) {
         int k = 0;
         char ascii[BYTES_PER_ROW];
