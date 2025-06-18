@@ -1,6 +1,8 @@
-#include <iostream>
-#include <cstring>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "decoder.h"
+#include "opcode.h"
 
 #define VERSION_MAJOR 1
 #define VERSION_MINOR 2
@@ -14,19 +16,19 @@ int main(int argc, char** argv) {
     static const char* usage = "OVERVIEW: NES ROM image dumper\n\n"
                                "USAGE: nobjdump [options] <input rom image>\n\n"
                                "OPTIONS:\n"
-                               "  -h, --header              Display iNES header\n"
+                               "  -h, --header          Display iNES header\n"
                                "  -d, --disassemble     Display the assembler mnemonics for the machine instructions\n"
                                "  -c, --chr             Display CHR ROM data\n"
                                "  -p, --prg             Display PRG ROM data\n"
                                "  --help                Display available options\n"
                                "  -v, --version         Display the version of this program\n";
     if (argc < 3) {
-        if (argc == 2 && !std::strcmp(argv[1], "--help")) {
-            std::cout << usage << std::endl;
-        } else if (argc == 2 && (!std::strcmp(argv[1], "-v") || !std::strcmp(argv[1], "--version"))) {
-            std::cout << "nobjdump version " << VERSION << std::endl;
+        if (argc == 2 && !strcmp(argv[1], "--help")) {
+            printf("%s\n", usage);
+        } else if (argc == 2 && (!strcmp(argv[1], "-v") || !strcmp(argv[1], "--version"))) {
+            printf("nobjdump version %s\n", VERSION);
         } else {
-            std::cerr << usage << std::endl;
+            fprintf(stderr, "%s\n", usage);
             return EXIT_FAILURE;
         }
         return EXIT_SUCCESS;
@@ -34,21 +36,23 @@ int main(int argc, char** argv) {
 
     Option opt;
 
-    if (!std::strcmp(argv[1], "-h") || !std::strcmp(argv[1], "--header")) {
-        opt = Option::HEADER;
-    } else if (!std::strcmp(argv[1], "-d") || !std::strcmp(argv[1], "--disassemble")) {
-        opt = Option::DISASSEMBLE;
-    } else if (!std::strcmp(argv[1], "-c") || !std::strcmp(argv[1], "--chr")) {
-        opt = Option::CHR;
-    } else if (!std::strcmp(argv[1], "-p") || !std::strcmp(argv[1], "--prg")) {
-        opt = Option::PRG;
+    if (!strcmp(argv[1], "-h") || !strcmp(argv[1], "--header")) {
+        opt = HEADER;
+    } else if (!strcmp(argv[1], "-d") || !strcmp(argv[1], "--disassemble")) {
+        opt = DISASSEMBLE;
+    } else if (!strcmp(argv[1], "-c") || !strcmp(argv[1], "--chr")) {
+        opt = CHR;
+    } else if (!strcmp(argv[1], "-p") || !strcmp(argv[1], "--prg")) {
+        opt = PRG;
     } else {
-        std::cerr << usage << std::endl;
+        fprintf(stderr, "%s\n", usage);
         return EXIT_FAILURE;
     }
 
-    InstructionDecoder decoder{argv[2]};
-    decoder.decode(opt);
+    initOpcodeTable();
+    initDecoder(argv[2]);
+    decode(opt);
+    exitDecoder();
 
     return EXIT_SUCCESS;
 }
