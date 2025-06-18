@@ -5,7 +5,7 @@
 #include "opcode.h"
 
 #define VERSION_MAJOR 1
-#define VERSION_MINOR 2
+#define VERSION_MINOR 3
 #define VERSION_PATCH 0
 
 #define STRINGIFY0(s) # s
@@ -49,10 +49,10 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
 
-    initOpcodeTable();
-    initDecoder(argv[2]);
+    opInitTable();
+    decInit(argv[2]);
     decode(opt);
-    exitDecoder();
+    decExit();
 
     return EXIT_SUCCESS;
 }

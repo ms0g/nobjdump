@@ -9,6 +9,6 @@ endif ()
 
 set(SOURCES
         src/decoder.c src/decoder.h
-        src/opcodeTable.c src/opcodeTable.h)
+        src/opcode.c src/opcode.h)
 
 add_executable(${PROJECT_NAME} src/main.c ${SOURCES})

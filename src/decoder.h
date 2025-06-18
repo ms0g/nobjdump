@@ -8,9 +8,9 @@ typedef enum {
     CHR
 } Option;
 
-void initDecoder(const char* filename);
+void decInit(const char* filename);
 
-void exitDecoder();
+void decExit();
 
 void decode(Option opt);
 

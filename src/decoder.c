@@ -36,7 +36,7 @@ static void displayFormattedData(const uint8_t* data, size_t len, uint16_t index
 
 static void disassemble();
 
-void initDecoder(const char* filename) {
+void decInit(const char* filename) {
     FILE* romFile = fopen(filename, "rb");
 
     fread(header, sizeof(uint8_t), 16, romFile);
@@ -69,7 +69,7 @@ void initDecoder(const char* filename) {
     fclose(romFile);
 }
 
-void exitDecoder() {
+void decExit() {
     free(prgRom.data);
     free(chrRom.data);
 }
@@ -135,7 +135,7 @@ static void disassemble() {
         const uint8_t* pData = &prgRom.data[i];
         const uint8_t opcode = *pData;
 
-        const Mnemonic* mnemonic = findMnemonic(opcode);
+        const Mnemonic* mnemonic = opFindMnemonic(opcode);
 
         if (mnemonic->mode != IMP && mnemonic->mode != ACC && mnemonic->mode != UNDEF) {
             i += mnemonic->operandCount;

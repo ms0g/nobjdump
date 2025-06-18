@@ -18,8 +18,8 @@ typedef struct {
     uint32_t operandCount;
 } Mnemonic;
 
-void initOpcodeTable();
+void opInitTable();
 
-Mnemonic* findMnemonic(uint8_t opcode);
+Mnemonic* opFindMnemonic(uint8_t opcode);
 
 #endif

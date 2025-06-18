@@ -15,7 +15,7 @@
 
 static Mnemonic mnemonicFromOpcode[256];
 
-void initOpcodeTable() {
+void opInitTable() {
     memset(mnemonicFromOpcode, 0, sizeof(Mnemonic) * 256);
 
     mnemonicFromOpcode[0x00] = (Mnemonic){"BRK", IMP, 0};
@@ -171,6 +171,6 @@ void initOpcodeTable() {
     mnemonicFromOpcode[0x70] = (Mnemonic){REL("BVS"), REL, 1};
 }
 
-Mnemonic* findMnemonic(const uint8_t opcode) {
+Mnemonic* opFindMnemonic(const uint8_t opcode) {
     return &mnemonicFromOpcode[opcode];
 }
