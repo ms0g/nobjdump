@@ -137,7 +137,7 @@ static void disassemble() {
 
         const Mnemonic* mnemonic = opFindMnemonic(opcode);
 
-        if (mnemonic->mode != IMP && mnemonic->mode != ACC && mnemonic->mode != UNDEF) {
+        if (mnemonic->aMode != IMP && mnemonic->aMode != ACC && mnemonic->aMode != UNDEF) {
             i += mnemonic->operandCount;
 
             uint8_t* operands = malloc(mnemonic->operandCount * sizeof(uint8_t));
@@ -165,7 +165,7 @@ static void disassemble() {
                    mnemonic->operandCount == 2 ? "\t" : "\t\t", out);
         } else {
             printf("%06X:\t%02X\t\t%s\n", prgRom.address, opcode,
-                   mnemonic->mode == UNDEF ? "UNDEFINED" : mnemonic->format);
+                   mnemonic->aMode == UNDEF ? "UNDEFINED" : mnemonic->format);
         }
         prgRom.address += mnemonic->operandCount + 1;
     }

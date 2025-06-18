@@ -14,7 +14,7 @@ typedef enum {
 
 typedef struct {
     const char* format;
-    AddressingMode mode;
+    AddressingMode aMode;
     uint32_t operandCount;
 } Mnemonic;
 
