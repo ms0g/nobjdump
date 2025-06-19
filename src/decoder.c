@@ -12,7 +12,7 @@
 #define MAGIC3 0x1A
 
 #define PRG_ROM_SIZE 16384
-#define PRG_ROM_ADDRESS 32768
+#define PRG_ROM_ADDRESS 0x8000
 #define CHR_ROM_SIZE 8192
 #define BYTES_PER_ROW 16
 #define INES_HEADER_SIZE 16
@@ -142,7 +142,7 @@ static void disassemble() {
         if (mnemonic->aMode != IMP && mnemonic->aMode != ACC && mnemonic->aMode != UNDEF) {
             i += mnemonic->operandCount;
 
-            uint8_t* operands = malloc(mnemonic->operandCount * sizeof(uint8_t));
+            uint8_t* operands = malloc(mnemonic->operandCount * sizeof(int8_t));
 
             for (int j = 1; j <= mnemonic->operandCount; ++j) {
                 operands[j - 1] = *(pData + j);
@@ -155,7 +155,13 @@ static void disassemble() {
                 snprintf(temp, sizeof(temp), "%02X ", operands[j]);
                 strncat(byteOpr, temp, sizeof(byteOpr) - strlen(byteOpr) - 1);
 
-                snprintf(temp, sizeof(temp), "%02X", operands[mnemonic->operandCount - j - 1]);
+                const uint8_t operand = operands[mnemonic->operandCount - j - 1];
+                if (mnemonic->aMode == REL) {
+                    snprintf(temp, sizeof(temp), "%02X", prgRom.address + (int8_t)operand + 2);
+                } else {
+                    snprintf(temp, sizeof(temp), "%02X", operand);
+                }
+
                 strncat(mnemOpr, temp, sizeof(mnemOpr) - strlen(mnemOpr) - 1);
             }
 
