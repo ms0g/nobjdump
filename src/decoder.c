@@ -31,11 +31,8 @@ static Rom chrRom;
 static uint8_t header[16];
 
 static void displayHeader();
-
 static void displayROM(const Rom* rom);
-
 static void displayFormattedData(const uint8_t* data, size_t len, uint16_t index);
-
 static void disassemble();
 
 void decInit(const char* filename) {
