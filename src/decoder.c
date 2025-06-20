@@ -18,6 +18,8 @@
 #define INES_HEADER_SIZE 16
 #define BUFFER_SIZE 32
 
+#define error(msg) do { fprintf(stderr, "%s", msg); fclose(romFile); exit(EXIT_FAILURE); } while (0)
+
 typedef struct {
     uint16_t address;
     uint32_t size;
@@ -43,16 +45,12 @@ void decInit(const char* filename) {
 
     if (header[0] != MAGIC0 || header[1] != MAGIC1 ||
         header[2] != MAGIC2 || header[3] != MAGIC3) {
-        fprintf(stderr, "Invalid NES rom file");
-        fclose(romFile);
-        exit(EXIT_FAILURE);
+        error("Invalid NES rom file\n");
     }
 
     prgRom.size = PRG_ROM_SIZE * header[4];
     if (!prgRom.size) {
-        fprintf(stderr, "No PRG ROM");
-        fclose(romFile);
-        exit(EXIT_FAILURE);
+        error("No PRG ROM\n");
     }
 
     prgRom.data = malloc(prgRom.size);
