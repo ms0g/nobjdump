@@ -1,5 +1,5 @@
-#ifndef OPCODE_TABLE_H
-#define OPCODE_TABLE_H
+#ifndef OPCODE_H
+#define OPCODE_H
 
 #include <stdint.h>
 
