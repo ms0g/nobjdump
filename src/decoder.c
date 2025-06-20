@@ -114,7 +114,7 @@ static void displayROM(const Rom* rom) {
 static void displayFormattedData(const uint8_t* data, const size_t len, const uint16_t index) {
     for (int i = 0; i < len / BYTES_PER_ROW; i += BYTES_PER_ROW) {
         int k = 0;
-        char ascii[BYTES_PER_ROW];
+        uint8_t ascii[BYTES_PER_ROW];
 
         for (int j = i; j < BYTES_PER_ROW + i; ++j) {
             ascii[k++] = isprint(data[j]) ? data[j] : '.';
