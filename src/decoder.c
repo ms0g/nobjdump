@@ -28,7 +28,7 @@ typedef struct {
 
 static Rom prgRom;
 static Rom chrRom;
-static uint8_t header[16];
+static uint8_t header[INES_HEADER_SIZE];
 
 static void displayHeader();
 
@@ -41,7 +41,7 @@ static void disassemble();
 void decInit(const char* filename) {
     FILE* romFile = fopen(filename, "rb");
 
-    fread(header, sizeof(uint8_t), 16, romFile);
+    fread(header, sizeof(uint8_t), INES_HEADER_SIZE, romFile);
 
     if (header[0] != MAGIC0 || header[1] != MAGIC1 ||
         header[2] != MAGIC2 || header[3] != MAGIC3) {
@@ -115,7 +115,7 @@ static void displayFormattedData(const uint8_t* data, const size_t len, const ui
     for (size_t i = 0; i < len; i += BYTES_PER_ROW) {
         char ascii[BYTES_PER_ROW + 1] = {0};
 
-        printf("%06X:\t", index + (uint16_t)i);
+        printf("%06X:\t", index + (uint16_t) i);
 
         for (size_t j = 0; j < BYTES_PER_ROW; ++j) {
             const uint8_t byte = data[i + j];
@@ -131,7 +131,7 @@ static void displayFormattedData(const uint8_t* data, const size_t len, const ui
 static void disassemble() {
     for (uint32_t i = 0; i < prgRom.size; ++i) {
         const uint8_t* pData = &prgRom.data[i];
-        uint32_t currentAddr = prgRom.address;
+        const uint32_t currentAddr = prgRom.address;
         const uint8_t opcode = *pData;
         const Mnemonic* mnemonic = opFindMnemonic(opcode);
 
