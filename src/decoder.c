@@ -31,8 +31,11 @@ static Rom chrRom;
 static uint8_t header[16];
 
 static void displayHeader();
+
 static void displayROM(const Rom* rom);
+
 static void displayFormattedData(const uint8_t* data, size_t len, uint16_t index);
+
 static void disassemble();
 
 void decInit(const char* filename) {
@@ -91,17 +94,17 @@ void decode(const Option opt) {
 static void displayHeader() {
     printf("iNES Header:\n"
            "    Magic Number: \t%02X %02X %02X %02X\n"
-           "    Size of PRG ROM: \t%d (%d count of 16 KB units)\n"
-           "    Size of CHR ROM: \t%d (%d count of 8 KB units)\n"
+           "    Size of PRG ROM: \t%d KB (%d count of 16 KB units)\n"
+           "    Size of CHR ROM: \t%d KB (%d count of 8 KB units)\n"
            "    Flags 6: \t\t0x%02x\n"
            "    Flags 7: \t\t0x%02x\n"
            "    Flags 8: \t\t0x%02x\n"
            "    Flags 9: \t\t0x%02x\n"
            "    Flags 10:\t\t0x%02x\n"
-           "    Unused padding:\t0x%02x\n",
-           header[0], header[1], header[2], header[3], prgRom.size, header[4],
-           chrRom.size, header[5], header[6], header[7], header[8], header[9],
-           header[10], header[11]);
+           "    Unused padding:\t0x%02X 0x%02X 0x%02X 0x%02X 0x%02X\n",
+           header[0], header[1], header[2], header[3], prgRom.size / 1024, header[4],
+           chrRom.size / 1024, header[5], header[6], header[7], header[8], header[9],
+           header[10], header[11], header[12], header[13], header[14], header[15]);
 }
 
 static void displayROM(const Rom* rom) {
@@ -109,35 +112,32 @@ static void displayROM(const Rom* rom) {
 }
 
 static void displayFormattedData(const uint8_t* data, const size_t len, const uint16_t index) {
-    for (int i = 0; i < len / BYTES_PER_ROW; i += BYTES_PER_ROW) {
-        int k = 0;
-        uint8_t ascii[BYTES_PER_ROW];
+    for (size_t i = 0; i < len; i += BYTES_PER_ROW) {
+        char ascii[BYTES_PER_ROW + 1] = {0};
 
-        for (int j = i; j < BYTES_PER_ROW + i; ++j) {
-            ascii[k++] = isprint(data[j]) ? data[j] : '.';
+        printf("%06X:\t", index + (uint16_t)i);
+
+        for (size_t j = 0; j < BYTES_PER_ROW; ++j) {
+            const uint8_t byte = data[i + j];
+            printf("%02X ", byte);
+            ascii[j] = isprint(byte) ? byte : '.';
         }
 
-        printf("%06X:\t%02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X"
-               "  %c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", index + i,
-               data[i], data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], data[i + 6],
-               data[i + 7], data[i + 8], data[i + 9], data[i + 10], data[i + 11], data[i + 12],
-               data[i + 13], data[i + 14], data[i + 15], ascii[0], ascii[1], ascii[2], ascii[3],
-               ascii[4], ascii[5], ascii[6], ascii[7], ascii[8], ascii[9], ascii[10], ascii[11],
-               ascii[12], ascii[13], ascii[14], ascii[15]);
+        ascii[BYTES_PER_ROW] = '\0';
+        printf(" %s\n", ascii);
     }
 }
 
 static void disassemble() {
     for (uint32_t i = 0; i < prgRom.size; ++i) {
         const uint8_t* pData = &prgRom.data[i];
+        uint32_t currentAddr = prgRom.address;
         const uint8_t opcode = *pData;
-
         const Mnemonic* mnemonic = opFindMnemonic(opcode);
 
         if (mnemonic->aMode != IMP && mnemonic->aMode != ACC && mnemonic->aMode != UNDEF) {
             i += mnemonic->operandCount;
-
-            uint8_t* operands = malloc(mnemonic->operandCount * sizeof(int8_t));
+            uint8_t operands[2] = {0};
 
             for (int j = 1; j <= mnemonic->operandCount; ++j) {
                 operands[j - 1] = *(pData + j);
@@ -149,18 +149,17 @@ static void disassemble() {
             for (int j = 0; j < mnemonic->operandCount; ++j) {
                 snprintf(temp, sizeof(temp), "%02X ", operands[j]);
                 strncat(byteOpr, temp, sizeof(byteOpr) - strlen(byteOpr) - 1);
-
-                const uint8_t operand = operands[mnemonic->operandCount - j - 1];
-                if (mnemonic->aMode == REL) {
-                    snprintf(temp, sizeof(temp), "%02X", prgRom.address + (int8_t)operand + 2);
-                } else {
-                    snprintf(temp, sizeof(temp), "%02X", operand);
-                }
-
-                strncat(mnemOpr, temp, sizeof(mnemOpr) - strlen(mnemOpr) - 1);
             }
 
-            free(operands);
+            if (mnemonic->aMode == REL) {
+                const int8_t relOffset = (int8_t) operands[0];
+                const uint16_t relAddr = currentAddr + mnemonic->operandCount + 1 + relOffset;
+                snprintf(mnemOpr, sizeof(mnemOpr), "%04X", relAddr);
+            } else if (mnemonic->operandCount == 2) {
+                snprintf(mnemOpr, sizeof(mnemOpr), "%02X%02X", operands[1], operands[0]); // little-endian
+            } else if (mnemonic->operandCount == 1) {
+                snprintf(mnemOpr, sizeof(mnemOpr), "%02X", operands[0]);
+            }
 
             char out[BUFFER_SIZE] = "";
             snprintf(out, sizeof(out), mnemonic->format, mnemOpr);
