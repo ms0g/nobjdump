@@ -166,8 +166,7 @@ static void disassemble() {
             printf("%06X:\t%02X %s%s%s\n", prgRom.address, opcode, byteOpr,
                    mnemonic->operandCount == 2 ? "\t" : "\t\t", out);
         } else {
-            printf("%06X:\t%02X\t\t%s\n", prgRom.address, opcode,
-                   mnemonic->aMode == UNDEF ? "UNDEFINED" : mnemonic->format);
+            printf("%06X:\t%02X\t\t%s\n", prgRom.address, opcode, mnemonic->format);
         }
         prgRom.address += mnemonic->operandCount + 1;
     }

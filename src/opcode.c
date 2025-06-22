@@ -1,22 +1,24 @@
 #include "opcode.h"
-#include <string.h>
 
 #define IMM(OPCODE) OPCODE " #$%s"
-#define ABS(OPCODE) OPCODE " $%s"
+#define ABS(OPCODE) OPCODE " $%04s"
+#define ABS_IND(OPCODE) OPCODE " ($%s)"
 #define ACC(OPCODE) OPCODE " A"
-#define ZP(OPCODE) ABS(OPCODE)
-#define REL(OPCODE) ABS(OPCODE)
+#define ZP(OPCODE)  OPCODE " $%02s"
+#define REL(OPCODE) OPCODE " $%02s"
 #define X_IN_ABS(OPCODE) OPCODE " $%s,X"
 #define Y_IN_ABS(OPCODE) OPCODE " $%s,Y"
-#define X_IN_ZP(OPCODE) X_IN_ABS(OPCODE)
-#define Y_IN_ZP(OPCODE) Y_IN_ABS(OPCODE)
+#define X_IN_ZP(OPCODE) OPCODE " $%s,X"
+#define Y_IN_ZP(OPCODE) OPCODE " $%s,Y"
 #define X_IN_ZP_IND(OPCODE) OPCODE " ($%s,X)"
 #define ZP_IND_Y_IN(OPCODE) OPCODE " ($%s),Y"
 
 static Mnemonic opcodeTable[256];
 
 void opInitTable() {
-    memset(opcodeTable, 0, sizeof(Mnemonic) * 256);
+    for (int i = 0; i < 256; ++i) {
+        opcodeTable[i] = (Mnemonic){"UNDEFINED", UNDEF, 0};
+    }
 
     opcodeTable[0x00] = (Mnemonic){"BRK", IMP, 0};
     opcodeTable[0x18] = (Mnemonic){"CLC", IMP, 0};
@@ -74,22 +76,22 @@ void opInitTable() {
     opcodeTable[0x8C] = (Mnemonic){ABS("STY"), ABS, 2};
     opcodeTable[0x84] = (Mnemonic){ZP("STY"), ZP, 1};
     opcodeTable[0x94] = (Mnemonic){X_IN_ZP("STY"), X_IN_ZP, 1};
-    opcodeTable[0x0A] = (Mnemonic){ACC("ASL"), ACC};
+    opcodeTable[0x0A] = (Mnemonic){ACC("ASL"), ACC, 0};
     opcodeTable[0x0E] = (Mnemonic){ABS("ASL"), ABS, 2};
     opcodeTable[0x1E] = (Mnemonic){X_IN_ABS("ASL"), X_IN_ABS, 2};
     opcodeTable[0x06] = (Mnemonic){ZP("ASL"), ZP, 1};
     opcodeTable[0x16] = (Mnemonic){X_IN_ZP("ASL"), X_IN_ZP, 1};
-    opcodeTable[0x4A] = (Mnemonic){ACC("LSR"), ACC};
+    opcodeTable[0x4A] = (Mnemonic){ACC("LSR"), ACC, 0};
     opcodeTable[0x4E] = (Mnemonic){ABS("LSR"), ABS, 2};
     opcodeTable[0x5E] = (Mnemonic){X_IN_ABS("LSR"), X_IN_ABS, 2};
     opcodeTable[0x46] = (Mnemonic){ZP("LSR"), ZP, 1};
     opcodeTable[0x56] = (Mnemonic){X_IN_ZP("LSR"), X_IN_ZP, 1};
-    opcodeTable[0x2A] = (Mnemonic){ACC("ROL"), ACC};
+    opcodeTable[0x2A] = (Mnemonic){ACC("ROL"), ACC, 0};
     opcodeTable[0x2E] = (Mnemonic){ABS("ROL"), ABS, 2};
     opcodeTable[0x3E] = (Mnemonic){X_IN_ABS("ROL"), X_IN_ABS, 2};
     opcodeTable[0x26] = (Mnemonic){ZP("ROL"), ZP, 1};
     opcodeTable[0x36] = (Mnemonic){X_IN_ZP("ROL"), X_IN_ZP, 1};
-    opcodeTable[0x6A] = (Mnemonic){ACC("ROR"), ACC};
+    opcodeTable[0x6A] = (Mnemonic){ACC("ROR"), ACC, 0};
     opcodeTable[0x6E] = (Mnemonic){ABS("ROR"), ABS, 2};
     opcodeTable[0x7E] = (Mnemonic){X_IN_ABS("ROR"), X_IN_ABS, 2};
     opcodeTable[0x66] = (Mnemonic){ZP("ROR"), ZP, 1};
@@ -159,7 +161,7 @@ void opInitTable() {
     opcodeTable[0xE6] = (Mnemonic){ZP("INC"), ZP, 1};
     opcodeTable[0xF6] = (Mnemonic){X_IN_ZP("INC"), X_IN_ZP, 1};
     opcodeTable[0x4C] = (Mnemonic){ABS("JMP"), ABS, 2};
-    opcodeTable[0x6C] = (Mnemonic){"JMP (${})", ABS_IND, 2};
+    opcodeTable[0x6C] = (Mnemonic){ABS_IND("JMP"), ABS_IND, 2};
     opcodeTable[0x20] = (Mnemonic){ABS("JSR"), ABS, 2};
     opcodeTable[0x90] = (Mnemonic){REL("BCC"), REL, 1};
     opcodeTable[0xB0] = (Mnemonic){REL("BCS"), REL, 1};
